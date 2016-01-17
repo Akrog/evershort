@@ -59,10 +59,10 @@ var keymanager = {
     },
 
     manager: function (event) {
-        console.log('key manager');
-        console.log(event);
+        log('key manager');
+        log(event);
         var char = event.key || event.code || event.which || event.keyCode || event.charCode;
-        console.log('DePressed: ' + char);
+        log('DePressed: ' + char);
 
         var was_handled = false;
 
@@ -76,13 +76,13 @@ var keymanager = {
                     (handler.on_input || this.not_input_element(event.target)) &&
                     this.is_in_context(handler.context, event.target)) {
                 if (typeof(handler.fire) === 'string') {
-                    console.log('Event click');
+                    log('Event click');
                     var element = parse_path(handler.fire)[0]
                     element.focus();
                     element.click();
                     stop = true;
                 } else {
-                    console.log('Event Fire');
+                    log('Event Fire');
                     stop = handler.fire(char, event, handler.context);
                 }
                 if (stop) {
