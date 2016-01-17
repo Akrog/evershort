@@ -30,7 +30,7 @@ var keys = [
 
 
 function init_evershort() {
-    keymanager.init();
+    keymanager.init(get_context);
     for (var i=0; i<keys.length; ++i) {
         var value = keys[i];
         keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front);
@@ -164,44 +164,25 @@ function is_visible(id) {
     return s && window.getComputedStyle(s).visibility === 'visible';
 }
 
-function in_context(context, event) {
-    var current_context = undefined;
-    if (!context || context === 'global')
-        return true;
 
+function get_context(context, event) {
     if (is_visible('gwt-debug-GlassModalDialog-container'))
-        current_context = 'modal_dialog';
+        return 'modal_dialog';
     else if (document.getElementById('gwt-debug-NotebooksDrawer-createNotebookButton'))
-        current_context = 'notebooks';
+        return 'notebooks';
     else if (document.getElementById('gwt-debug-WorkChatDrawer-startChatButton'))
-        current_context = 'workchat';
+        return 'workchat';
     else if (is_visible('gwt-debug-ShortcutsDrawer-title'))
-        current_context = 'shortcuts';
+        return 'shortcuts';
     else if (document.getElementsByClassName('focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon').length)
-        current_context = 'tags';
+        return 'tags';
     else {
         var s = document.getElementById('gwt-debug-searchViewSearchBox');
         if (window.getComputedStyle(s.parentElement.parentElement.parentElement).overflow === 'visible')
-            current_context = 'search';
+            return 'search';
         else if (document.getElementById('gwt-debug-NotesHeader-title'))
-            current_context = 'notes';
+            return 'notes';
     }
 
-    if (!Array.isArray(context))
-        context = [context];
-
-    for (var i=0; i<context.length; ++i) {
-        var ctxt = parse_path(context[i]);
-
-        if (ctxt[0] != current_context)
-            continue;
-
-        if (ctxt.length === 1)
-            return true;
-
-        if (event.target === ctxt[1])
-            return true;
-    }
-
-    return false;
+    return undefined;
 }

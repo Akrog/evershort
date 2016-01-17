@@ -1,10 +1,11 @@
 var keymanager = {
     shortcuts: {},
 
-    init: function() {
+    init: function(get_context) {
        manager = this.manager.bind(this)
        document.addEventListener('keypress', manager, false);
        document.addEventListener('keydown', manager, true);
+       this.get_context = get_context;
     },
 
     add_shortcut: function (key, name, on, fire, context, on_input, to_front) {
@@ -32,6 +33,31 @@ var keymanager = {
                 element.tagName !== 'INPUT');
     },
 
+    is_in_context: function (context, target) {
+        if (!context || context === 'global')
+            return true;
+
+        current_context = this.get_context();
+
+        if (!Array.isArray(context))
+            context = [context];
+
+        for (var i=0; i<context.length; ++i) {
+            var ctxt = parse_path(context[i]);
+
+            if (ctxt[0] != current_context)
+                continue;
+
+            if (ctxt.length === 1)
+                return true;
+
+            if (target === ctxt[1])
+                return true;
+        }
+
+        return false;
+    },
+
     manager: function (event) {
         console.log('key manager');
         console.log(event);
@@ -46,7 +72,9 @@ var keymanager = {
 
         for (var i=0; i<handlers.length; ++i) {
             var handler = handlers[i];
-            if ((handler.on === event.type) && (handler.on_input || this.not_input_element(event.target)) && in_context(handler.context, event)) {
+            if ((handler.on === event.type) &&
+                    (handler.on_input || this.not_input_element(event.target)) &&
+                    this.is_in_context(handler.context, event.target)) {
                 if (typeof(handler.fire) === 'string') {
                     console.log('Event click');
                     var element = parse_path(handler.fire)[0]
