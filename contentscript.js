@@ -1,38 +1,42 @@
 window.addEventListener('load', function(){setTimeout(init_evershort, 2000);}, false);
 
+
+var keys = [
+    {key: 47, name: 'search', on: 'keypress', fire: 'id:gwt-debug-Sidebar-searchButton-container'},
+    {key: 97, name: 'newnote', on: 'keypress', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},
+    {key: 98, name: 'notebooks', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},
+    {key: 116, name: 'tags', on: 'keypress', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},
+    {key: 115, name: 'shortcuts', on: 'keypress', fire: 'id:gwt-debug-Sidebar-shortcutsButton-container'},
+    {key: 119, name: 'workchat', on: 'keypress', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},
+    {key: 110, name: 'notes', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notesButton-container'},
+    {key: 101, name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},
+    {key: 106, name: 'notes_down', on: 'keypress', context: 'notes', fire: note_down_key},
+    {key: 107, name: 'notes_up', on: 'keypress', context: 'notes', fire: note_up_key},
+    {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: exit_field},
+    {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
+    {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
+    {key: 99, name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},
+    {key: 99, name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},
+    {key: 99, name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},
+    {key: 102, name: 'search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},
+    {key: 102, name: 'search_note', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},
+    {key: 102, name: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},
+    {key: 102, name: 'search_notebook', on: 'keypress', context: 'notebooks', fire: search_notebook}, //'id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'}]
+    {key: 120, name: 'clear_search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-search-clear'},
+    {key: 120, name: 'clear_search_note', on: 'keypress', context: 'search', fire: clear_search},
+    {key: 120, name: 'clear_search_chat', on: 'keypress', context: 'workchat', fire: clear_search},
+    {key: 120, name: 'clear_search_notebook', on: 'keypress', context: 'notebooks', fire: clear_search}
+]
+
+
 function init_evershort() {
-    document.addEventListener('keypress', key_manager, false);
-    document.addEventListener('keydown', key_manager, true);
+    keymanager.init();
+    for (var i=0; i<keys.length; ++i) {
+        var value = keys[i];
+        keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front);
+    }
 }
 
-
-var shortcuts = {
-    47: {name: 'search', on: 'keypress', fire: 'id:gwt-debug-Sidebar-searchButton-container'},
-    97: {name: 'newnote', on: 'keypress', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},
-    98: {name: 'notebooks', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},
-    116: {name: 'tags', on: 'keypress', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},
-    115: {name: 'shortcuts', on: 'keypress', fire: 'id:gwt-debug-Sidebar-shortcutsButton-container'},
-    119: {name: 'workchat', on: 'keypress', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},
-    110: {name: 'notes', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notesButton-container'},
-    101: {name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},
-    106: {name: 'notes_down', on: 'keypress', context: 'notes', fire: note_down_key},
-    107: {name: 'notes_up', on: 'keypress', context: 'notes', fire: note_up_key},
-    27: [{name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: exit_field},
-         {name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys}
-        ],
-    13: {name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
-    99: [{name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},
-         {name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},
-         {name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'}],
-    102: [{name: 'search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},
-          {name: 'search_note', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},
-          {name: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},
-          {name: 'search_notebook', on: 'keypress', context: 'notebooks', fire: search_notebook}], //'id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'}]
-    120: [{name: 'clear_search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-search-clear'},
-          {name: 'clear_search_note', on: 'keypress', context: 'search', fire: clear_search},
-          {name: 'clear_search_chat', on: 'keypress', context: 'workchat', fire: clear_search},
-          {name: 'clear_search_notebook', on: 'keypress', context: 'notebooks', fire: clear_search}]
-};
 
 function modal_dialog_keys(char) {
     if (char === 27) {
@@ -155,12 +159,6 @@ function parse_path(path) {
 }
 
 
-function not_input_element(element) {
-    return (element.nodeType !== Node.TEXT_NODE &&
-            element.nodeName !== 'INPUT' &&
-            element.tagName !== 'INPUT');
-}
-
 function is_visible(id) {
     var s = document.getElementById(id);
     return s && window.getComputedStyle(s).visibility === 'visible';
@@ -205,44 +203,5 @@ function in_context(context, event) {
             return true;
     }
 
-    //s = document.getElementsByClassName('focus-drawer-TagsDrawer-TagsDrawer-header')[0].children[0].textContent
-    //s.children[0].textContent
-
     return false;
-}
-
-
-function key_manager(event) {
-    console.log('key manager');
-    console.log(event);
-    var char = event.key || event.code || event.which || event.keyCode || event.charCode;
-    console.log('Pressed: ' + char);
-
-    var was_handled = false;
-
-    var handlers = shortcuts[char] || [];
-    if (!Array.isArray(handlers))
-        handlers = [handlers];
-
-    for (var i=0; i<handlers.length; ++i) {
-        var handler = handlers[i];
-        if ((handler.on === event.type) && (handler.on_input || not_input_element(event.target)) && in_context(handler.context, event)) {
-            if (typeof(handler.fire) === 'string') {
-                console.log('Event click');
-                var element = parse_path(handler.fire)[0]
-                element.focus();
-                element.click();
-                stop = true;
-            } else {
-                console.log('Event Fire');
-                stop = handler.fire(char, event, handler.context);
-            }
-            if (stop) {
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                event.preventDefault();
-                return false;
-            }
-        }
-    }
 }
