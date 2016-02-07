@@ -61,7 +61,7 @@ var keymanager = {
     manager: function (event) {
         log('key manager');
         log(event);
-        var char = event.key || event.code || event.which || event.keyCode || event.charCode;
+        var char = event.key || event.which || event.KeyCode || event.charCode;
         log('DePressed: ' + char);
 
         var was_handled = false;
