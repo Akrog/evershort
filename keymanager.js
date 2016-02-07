@@ -9,6 +9,9 @@ var keymanager = {
     },
 
     add_shortcut: function (key, name, on, fire, context, on_input, to_front) {
+        if (typeof(key) === "string")
+            key = key.charCodeAt(0);
+
         if (!(key in this.shortcuts))
             this.shortcuts[key] = [];
 
