@@ -82,6 +82,7 @@ function clear_search(char, event, ctxt) {
     s = parse_path(elements[ctxt])[0];
     if (s && s.nextElementSibling)
         s.nextElementSibling.click();
+    return true;
 }
 
 function search_notebook(char, event) {
