@@ -26,6 +26,8 @@ var keys = [
     {key: 'a', name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
     {key: 'a', name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
     {key: 'f', name: 'search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},  // Keycode 102
+    {key: 'w', name: 'search_scope', on: 'keypress', context: 'search', fire: 'id:gwt-debug-activeScopeContainer'},
+    {key: 'a', name: 'save_search', on: 'keypress', context: 'search', fire: save_search},
     {key: 'f', name: 'search_note', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},  // Keycode 102
     {key: 'f', name: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},  // Keycode 102
     {key: 'f', name: 'search_notebook', on: 'keypress', context: 'notebooks', fire: search_notebook},   // Keycode 102  //'id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'}]
@@ -93,6 +95,17 @@ function search_notebook(char, event) {
     s.focus();
     s.click();
     return true;
+}
+
+
+function save_search(char, event) {
+    field = document.getElementById('gwt-debug-searchViewSearchBox');
+    if (field.value) {
+        elem = document.getElementsByClassName('GCBHGQQBPTB GCBHGQQBBD');
+        if (elem[0] && elem[0].textContent === 'Save search') {
+            elem[0].click();
+        }
+    }
 }
 
 
