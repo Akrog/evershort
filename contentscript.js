@@ -17,6 +17,11 @@ var keys = [
     {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: exit_field},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
+    {key: 13, name: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
+    {key: 'j', name: 'notebook_down', on: 'keypress', context: 'notebooks', fire: notebook_down_key},
+    {key: 'k', name: 'notebook_up', on: 'keypress', context: 'notebooks', fire: notebook_up_key},
+    {key: 13, name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
+    {key: 'l', name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
     {key: 'c', name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
     {key: 'c', name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
     {key: 'c', name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
@@ -114,13 +119,86 @@ function exit_field(char, event) {
     return true;
 }
 
+
+function get_selected_notebook_search_element() {
+    // Get list of all loaded notebooks
+    var t = document.getElementsByClassName("qa-notebookWidget");
+
+    if (t.length === 0)
+        return {selected: undefined, all: t, index: undefined};
+
+    // Construct the hover class that gets added when mouseover
+    var cls = t[0].classList[0];
+    var selected_class = cls.substr(0, cls.length-3) + 'B' + cls.substr(cls.length-2);
+
+    // Search for a notebook element that has that class
+    for(var index = 0; index<t.length; ++index)
+        if (t[index].classList.contains(selected_class))
+            return {selected: t[index], all: t, index: index};
+    return {selected: undefined, all: t, index: undefined};
+}
+
+
+function select_notebook_search_element(offset) {
+    offset |= 0;
+    result = get_selected_notebook_search_element();
+    // Offset will be limited by the existing notebook elements
+    result.index |= 0;
+    index = Math.min(Math.max(result.index + offset, 0), result.all.length);
+    element = result.all[index];
+    // Show the notebook list entry and hover over it
+    if (element) {
+        element.scrollIntoViewIfNeeded();
+        hover(element);
+    }
+    return {selected: element, total: result.all.length};
+}
+
+
+function notebook_down_key(char, event) {
+    select_notebook_search_element(1);
+}
+
+
+function notebook_up_key(char, event) {
+    select_notebook_search_element(-1);
+}
+
+
+function notebook_select(char, event) {
+    // We need this method because Enter only worked if we were already  moving
+    // using j, k but it didn't work if we exited the list using esc or if there
+    // were multiple entries and we hit enter in the search box and then hit
+    // it again.
+    var notebook = get_selected_notebook_search_element();
+    if (notebook.selected)
+        notebook.selected.click();
+}
+
+
+function exec_search_notebook() {
+    var result = select_notebook_search_element();
+    // If we find notebooks with the query
+    if (result.selected) {
+        // Exit the search field
+        exit_field(27, {target: result.selected});
+        // If we only find 1 notebook we will open it
+        if (result.total === 1)
+            result.selected.click();
+    }
+    // We don't want any more key events to be processed
+    return true;
+}
+
+
 function note_down_key(char, event) {
     var s = document.getElementsByClassName('focus-NotesView-Note-selected');
+    log('note_down_key')
     s = s && s[0];
     if (s) {
         var element = s.nextElementSibling;
         if (element) {
-            element.scrollIntoViewIfNeeded()
+            element.scrollIntoViewIfNeeded();
             element.click();
         }
     }
@@ -128,12 +206,13 @@ function note_down_key(char, event) {
 }
 
 function note_up_key(char, event) {
+    log('note_up_key')
     var s = document.getElementsByClassName('focus-NotesView-Note-selected');
     s = s && s[0];
     if (s) {
         var element = s.previousElementSibling;
         if (element) {
-            element.scrollIntoViewIfNeeded()
+            element.scrollIntoViewIfNeeded();
             element.click();
         }
     }
