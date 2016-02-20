@@ -12,8 +12,8 @@ var keys = [
     {key: 'W', name: 'workchat', on: 'keypress', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},  // Keycode 119
     {key: 'N', name: 'notes', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notesButton-container'},  // Keycode 110
     {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
-    {key: 'j', name: 'notes_down', on: 'keypress', context: 'notes', fire: note_down_key},  // Keycode 106
-    {key: 'k', name: 'notes_up', on: 'keypress', context: 'notes', fire: note_up_key},  // Keycode 107
+    {key: 'j', name: 'notes_down', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
+    {key: 'k', name: 'notes_up', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
     {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: new FireKey(9)},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
@@ -237,7 +237,7 @@ function get_context(context, event) {
         var s = document.getElementById('gwt-debug-searchViewSearchBox');
         if (window.getComputedStyle(s.parentElement.parentElement.parentElement).overflow === 'visible')
             return 'search';
-        else if (document.getElementById('gwt-debug-NotesHeader-title'))
+        else if (document.getElementById('gwt-debug-notesListView'))
             return 'notes';
     }
 
