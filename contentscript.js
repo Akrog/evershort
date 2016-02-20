@@ -22,6 +22,9 @@ var keys = [
     {key: 'k', name: 'notebook_up', on: 'keypress', context: 'notebooks', fire: notebook_up_key},
     {key: 13, name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
     {key: 'l', name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
+    {key: 'd', name: 'delete_notebook', on: 'keypress', context: 'notebooks', fire: notebook_delete},
+    {key: 'e', name: 'email_notebook', on: 'keypress', context: 'notebooks', fire: notebook_email},
+    {key: 's', name: 'star_notebook', on: 'keypress', context: 'notebooks', fire: notebook_star},
     {key: 'a', name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
     {key: 'a', name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
     {key: 'a', name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
@@ -169,6 +172,40 @@ function notebook_select(char, event) {
     var notebook = get_selected_notebook_search_element();
     if (notebook.selected)
         notebook.selected.click();
+}
+
+
+function search_by_class(elem, cls) {
+    if (elem.classList.contains(cls))
+        return elem;
+    for (var i=0; i<elem.children.length; ++i) {
+        found = search_by_class(elem.children[i], cls);
+        if (found)
+            return found;
+    }
+    return undefined;
+}
+
+
+function notebook_button(which) {
+    var notebook = get_selected_notebook_search_element();
+    var button = search_by_class(notebook.selected, which);
+    if (button)
+        button.click();
+}
+
+function notebook_delete(char, event) {
+    notebook_button('qa-deleteButton');
+}
+
+
+function notebook_email(char, event) {
+    notebook_button('qa-shareButton');
+}
+
+
+function notebook_star(char, event) {
+    notebook_button('qa-shortcutButton');
 }
 
 
