@@ -78,3 +78,24 @@ function dispatchEvent(el, evt) {
   }
   return evt;
 }
+
+
+function generate_keyevent(type, key, shiftKey, altKey, ctrlKey, metaKey) {
+    var padded_key = '0000' + key;
+    padded_key = padded_key.slice(padded_key.length < 8? -4:4);
+    var evt = new KeyboardEvent(type, {keyIdentifier: "U+" + padded_key, bubbles: true, cancelable: true, isTrusted: true, view: document.defaultView, shiftKey: shiftKey, altKey: altKey, ctrlKey: ctrlKey, metaKey: metaKey, keyCode: key, which: key});
+    // Chromium Hack
+    Object.defineProperty(evt, 'keyCode', {
+                get : function() {
+                    return key;
+                }
+    });
+    Object.defineProperty(evt, 'which', {
+                get : function() {
+                    return key;
+                }
+    });
+
+     return evt;
+}
+

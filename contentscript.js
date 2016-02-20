@@ -14,7 +14,7 @@ var keys = [
     {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', name: 'notes_down', on: 'keypress', context: 'notes', fire: note_down_key},  // Keycode 106
     {key: 'k', name: 'notes_up', on: 'keypress', context: 'notes', fire: note_up_key},  // Keycode 107
-    {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: exit_field},
+    {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: new FireKey(9)},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
@@ -94,27 +94,9 @@ function search_notebook(char, event) {
     return true;
 }
 
-function generate_keyevent(type, key, shiftKey, altKey, ctrlKey, metaKey) {
-    var padded_key = '0000' + key;
-    padded_key = padded_key.slice(padded_key.length < 8? -4:4);
-    var evt = new KeyboardEvent(type, {keyIdentifier: "U+" + padded_key, bubbles: true, cancelable: true, isTrusted: true, view: document.defaultView, shiftKey: shiftKey, altKey: altKey, ctrlKey: ctrlKey, metaKey: metaKey, keyCode: key, which: key});
-    // Chromium Hack
-    Object.defineProperty(evt, 'keyCode', {
-                get : function() {
-                    return key;
-                }
-    });
-    Object.defineProperty(evt, 'which', {
-                get : function() {
-                    return key;
-                }
-    });
-
-     return evt;
-}
 
 function exit_field(char, event) {
-    var evt = generate_keyevent('keydown', 9, true);
+    var evt = generate_keyevent('keydown', 9);
     event.target.dispatchEvent(evt);
     return true;
 }

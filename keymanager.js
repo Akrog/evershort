@@ -1,3 +1,14 @@
+function FireKey(key) {
+    if (typeof(key) === "string") {
+        this.key = key;
+        this.key_code = key.charCodeAt(0);
+    } else {
+        this.key_code = key;
+        this.key = String.fromCharCode(key);
+    }
+}
+
+
 var keymanager = {
     shortcuts: {},
 
@@ -83,6 +94,10 @@ var keymanager = {
                     var element = parse_path(handler.fire)[0]
                     element.focus();
                     element.click();
+                    stop = true;
+                } else if (handler.fire instanceof FireKey) {
+                    var evt = generate_keyevent('keydown', handler.fire.key_code);
+                    event.target.dispatchEvent(evt);
                     stop = true;
                 } else {
                     log('Event Fire');
