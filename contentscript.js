@@ -5,13 +5,13 @@ window.addEventListener('load', function(){setTimeout(init_evershort, 2000);}, f
 
 var keys = [
     {key: '/', name: 'search', on: 'keypress', fire: 'id:gwt-debug-Sidebar-searchButton-container'},  // Keycode 47
-    {key: 'a', name: 'newnote', on: 'keypress', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},  // Keycode 97
-    {key: 'b', name: 'notebooks', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},  // Keycode 98
-    {key: 't', name: 'tags', on: 'keypress', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},  // Keycode 116
-    {key: 's', name: 'shortcuts', on: 'keypress', fire: 'id:gwt-debug-Sidebar-shortcutsButton-container'},  // Keycode 115
-    {key: 'w', name: 'workchat', on: 'keypress', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},  // Keycode 119
-    {key: 'n', name: 'notes', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notesButton-container'},  // Keycode 110
-    {key: 'e', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
+    {key: 'A', name: 'newnote', on: 'keypress', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},  // Keycode 97
+    {key: 'B', name: 'notebooks', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},  // Keycode 98
+    {key: 'T', name: 'tags', on: 'keypress', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},  // Keycode 116
+    {key: 'S', name: 'shortcuts', on: 'keypress', fire: 'id:gwt-debug-Sidebar-shortcutsButton-container'},  // Keycode 115
+    {key: 'W', name: 'workchat', on: 'keypress', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},  // Keycode 119
+    {key: 'N', name: 'notes', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notesButton-container'},  // Keycode 110
+    {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', name: 'notes_down', on: 'keypress', context: 'notes', fire: note_down_key},  // Keycode 106
     {key: 'k', name: 'notes_up', on: 'keypress', context: 'notes', fire: note_up_key},  // Keycode 107
     {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: exit_field},
@@ -22,9 +22,9 @@ var keys = [
     {key: 'k', name: 'notebook_up', on: 'keypress', context: 'notebooks', fire: notebook_up_key},
     {key: 13, name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
     {key: 'l', name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
-    {key: 'c', name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
-    {key: 'c', name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
-    {key: 'c', name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
+    {key: 'a', name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
+    {key: 'a', name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
+    {key: 'a', name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
     {key: 'f', name: 'search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},  // Keycode 102
     {key: 'f', name: 'search_note', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},  // Keycode 102
     {key: 'f', name: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},  // Keycode 102
