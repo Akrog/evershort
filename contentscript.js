@@ -14,6 +14,11 @@ var keys = [
     {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', name: 'notes_down', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
     {key: 'k', name: 'notes_up', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
+    {key: 'e', name: 'email_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root'},
+    {key: 's', name: 'star_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton'},
+    {key: 'i', name: 'info_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton'},
+    {key: 'd', name: 'delete_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton'},
+    {key: 'r', name: 'remind_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-reminderButton'},
     {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: new FireKey(9)},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
