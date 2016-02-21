@@ -14,11 +14,11 @@ var keys = [
     {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', name: 'notes_down', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
     {key: 'k', name: 'notes_up', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
-    {key: 'e', name: 'email_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root'},
-    {key: 's', name: 'star_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton'},
-    {key: 'i', name: 'info_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton'},
-    {key: 'd', name: 'delete_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton'},
-    {key: 'r', name: 'remind_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-reminderButton'},
+    {key: 'e', name: 'email_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root', visible: true},
+    {key: 's', name: 'star_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton', visible: true},
+    {key: 'i', name: 'info_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton', visible: true},
+    {key: 'd', name: 'delete_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton', visible: true},
+    {key: 'r', name: 'remind_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-reminderButton', visible: true},
     {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: new FireKey(9)},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
@@ -50,7 +50,7 @@ function init_evershort() {
     keymanager.init(get_context);
     for (var i=0; i<keys.length; ++i) {
         var value = keys[i];
-        keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front);
+        keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front, value.visible);
     }
 }
 
@@ -233,7 +233,7 @@ function note_down_key(char, event) {
     var s = document.getElementsByClassName('focus-NotesView-Note-selected');
     log('note_down_key')
     s = s && s[0];
-    if (s) {
+    if (is_visible(s)) {
         var element = s.nextElementSibling;
         if (element) {
             element.scrollIntoViewIfNeeded();
@@ -243,11 +243,12 @@ function note_down_key(char, event) {
     return true;
 }
 
+
 function note_up_key(char, event) {
     log('note_up_key')
     var s = document.getElementsByClassName('focus-NotesView-Note-selected');
     s = s && s[0];
-    if (s) {
+    if (is_visible(s)) {
         var element = s.previousElementSibling;
         if (element) {
             element.scrollIntoViewIfNeeded();
@@ -258,20 +259,20 @@ function note_up_key(char, event) {
 }
 
 
-function is_visible(id) {
+function is_id_visible(id) {
     var s = document.getElementById(id);
-    return s && window.getComputedStyle(s).visibility === 'visible';
+    return is_visible(s);
 }
 
 
 function get_context(context, event) {
-    if (is_visible('gwt-debug-GlassModalDialog-container'))
+    if (is_id_visible('gwt-debug-GlassModalDialog-container'))
         return 'modal_dialog';
     else if (document.getElementById('gwt-debug-NotebooksDrawer-createNotebookButton'))
         return 'notebooks';
     else if (document.getElementById('gwt-debug-WorkChatDrawer-startChatButton'))
         return 'workchat';
-    else if (is_visible('gwt-debug-ShortcutsDrawer-title'))
+    else if (is_id_visible('gwt-debug-ShortcutsDrawer-title'))
         return 'shortcuts';
     else if (document.getElementsByClassName('focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon').length)
         return 'tags';

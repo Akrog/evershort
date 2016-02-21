@@ -19,7 +19,7 @@ var keymanager = {
        this.get_context = get_context;
     },
 
-    add_shortcut: function (key, name, on, fire, context, on_input, to_front) {
+    add_shortcut: function (key, name, on, fire, context, on_input, to_front, visible) {
         if (typeof(key) === "string")
             key = key.charCodeAt(0);
 
@@ -32,7 +32,8 @@ var keymanager = {
             on: on,
             fire: fire,
             context: context,
-            on_input: on_input
+            on_input: on_input,
+            visible: visible,
         };
 
         if (to_front)
@@ -91,10 +92,12 @@ var keymanager = {
                     this.is_in_context(handler.context, event.target)) {
                 if (typeof(handler.fire) === 'string') {
                     log('Event click');
-                    var element = parse_path(handler.fire)[0]
-                    element.focus();
-                    element.click();
-                    stop = true;
+                    var element = parse_path(handler.fire)[0];
+                    if (element && (!handler.visible || is_visible(element))) {
+                        element.focus();
+                        element.click();
+                        stop = true;
+                    }
                 } else if (handler.fire instanceof FireKey) {
                     var evt = generate_keyevent('keydown', handler.fire.key_code);
                     event.target.dispatchEvent(evt);
