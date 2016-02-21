@@ -19,6 +19,10 @@ var keys = [
     {key: 'i', name: 'info_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton', visible: true},
     {key: 'd', name: 'delete_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton', visible: true},
     {key: 'r', name: 'remind_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-reminderButton', visible: true},
+    {key: 'b', name: 'move_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NotebookSelectMenu-notebookName', visible: true},
+    {key: 't', name: 'tag_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTagsView-tagInputBox', visible: true},
+    {key: 13, name: 'exec_move_note', on: 'keydown', on_input: true, context: ['notes>id:gwt-debug-NotebookSelectMenu-filter-textBox', 'search>id:gwt-debug-NotebookSelectMenu-filter-textBox'], fire: exec_move_note, visible: true},
+    {key: 27, name: 'exit_move_note', on: 'keydown', on_input: true, context: ['notes>class:qa-ResizingSuggestLozenge-input', 'search>class:qa-ResizingSuggestLozenge-input'], fire: exit_tag_note, visible: true},
     {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: new FireKey(9)},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
@@ -103,6 +107,24 @@ function search_notebook(char, event) {
     s.focus();
     s.click();
     return true;
+}
+
+
+function exit_tag_note(char, event) {
+    var field = document.getElementsByClassName('qa-ResizingSuggestLozenge-input');
+    field = field && field[0];
+    if (field && is_visible(field)) {
+        // Empty the tag field to avoid adding this new tag
+        field.value = '';
+        // Hide the popup if it's vissible
+        var popup = document.getElementsByClassName('suggestPopupTop');
+        var popup_group = search_up_by_style(popup && popup[0], 'visibility', 'visible'); 
+        if (popup_group)
+            popup_group.style.visibility = 'hidden';
+        // Fired the ESC char
+        exit_field(char, event);
+        return true;
+    }
 }
 
 
@@ -192,6 +214,17 @@ function search_by_class(elem, cls) {
 }
 
 
+function search_up_by_style(elem, style, value) {
+    if (!elem) return undefined;
+    while (elem.style[style] !== value) {
+        if (!elem.parentElement)
+            return undefined;
+        elem = elem.parentElement;
+    }
+    return elem;
+}
+
+
 function notebook_button(which) {
     var notebook = get_selected_notebook_search_element();
     var button = search_by_class(notebook.selected, which);
@@ -226,6 +259,15 @@ function exec_search_notebook() {
     }
     // We don't want any more key events to be processed
     return true;
+}
+
+
+function exec_move_note() {
+    var notebooks = document.getElementsByClassName('GCBHGQQBMMB');
+    if (notebooks.length === 1) {
+        notebooks[0].scrollIntoViewIfNeeded();
+        notebooks[0].click();
+    }
 }
 
 
