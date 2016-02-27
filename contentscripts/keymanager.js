@@ -60,17 +60,22 @@ var keymanager = {
         for (var i=0; i<context.length; ++i) {
             var ctxt = parse_path(context[i]);
 
+            // For exclude context cases
+            negate = ctxt[0] === '!';
+            if (negate)
+                ctxt.shift();
+
             if (ctxt[0] != current_context)
                 continue;
 
             if (ctxt.length === 1)
-                return true;
+                return !negate;
 
             if (target === ctxt[1])
-                return true;
+                return !negate;
         }
 
-        return false;
+        return negate;
     },
 
     manager: function (event) {

@@ -20,6 +20,12 @@ function parse_path(path) {
             result = result[last[2] || 0];
         paths[paths.length - 1] = result;
     }
+
+    // For exclussion cases we include the negation as the first part of the path
+    if (paths[0] && paths[0][0] === '!') {
+        paths[0] = paths[0].slice(1);
+        paths.unshift('!');
+    }
     return paths;
 }
 
