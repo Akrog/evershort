@@ -11,7 +11,7 @@
     "content_scripts": [
         {
             "matches": [ "https://*.evernote.com/Home.action*", "https://evernote.com/Home.action*" ],
-            "js": [ "utils.js", "keymanager.js", "contentscript.js" ],
+            "js": [ "contentscripts/utils.js", "contentscripts/keymanager.js", "contentscripts/contentscript.js" ],
             "run_at": "document_end"
         }
     ],
