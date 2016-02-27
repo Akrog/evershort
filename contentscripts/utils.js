@@ -128,3 +128,11 @@ function is_visible(elem) {
     }
     return false;
 };
+
+
+function read_file(filename) {
+  var req = new XMLHttpRequest();
+  req.open("GET", chrome.extension.getURL(filename), false);
+  req.send();
+  return req.responseText;
+};

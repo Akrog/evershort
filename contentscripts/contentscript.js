@@ -3,57 +3,134 @@ DEBUG_MODE = false;
 window.addEventListener('load', function(){setTimeout(init_evershort, 2000);}, false);
 
 
+var key_groups = [ 'side_bar', 'note_operations', 'note_navigation', 'book_keys', 'misc', 'search' ];
+
 var keys = [
-    {key: '/', name: 'search', on: 'keypress', fire: 'id:gwt-debug-Sidebar-searchButton-container'},  // Keycode 47
-    {key: 'A', name: 'newnote', on: 'keypress', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},  // Keycode 97
-    {key: 'B', name: 'notebooks', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},  // Keycode 98
-    {key: 'T', name: 'tags', on: 'keypress', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},  // Keycode 116
-    {key: 'S', name: 'shortcuts', on: 'keypress', fire: 'id:gwt-debug-Sidebar-shortcutsButton-container'},  // Keycode 115
-    {key: 'W', name: 'workchat', on: 'keypress', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},  // Keycode 119
-    {key: 'N', name: 'notes', on: 'keypress', fire: 'id:gwt-debug-Sidebar-notesButton-container'},  // Keycode 110
-    {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
-    {key: 'j', name: 'notes_down', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
-    {key: 'k', name: 'notes_up', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
-    {key: 'l', name: 'notes_edit', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: true},  // Keycode 107
-    {key: 'c', name: 'notes_title', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: true},  // Keycode 107
-    {key: 27, name: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
-    {key: 'e', name: 'email_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root', visible: true},
-    {key: 's', name: 'star_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton', visible: true},
-    {key: 'i', name: 'info_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton', visible: true},
-    {key: 'd', name: 'delete_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton', visible: true},
-    {key: 'r', name: 'remind_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-reminderButton', visible: true},
-    {key: 'b', name: 'move_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NotebookSelectMenu-notebookName', visible: true},
-    {key: 't', name: 'tag_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTagsView-tagInputBox', visible: true},
-    {key: 13, name: 'exec_move_note', on: 'keydown', on_input: true, context: ['notes>id:gwt-debug-NotebookSelectMenu-filter-textBox', 'search>id:gwt-debug-NotebookSelectMenu-filter-textBox'], fire: exec_move_note, visible: true},
-    {key: 27, name: 'exit_move_note', on: 'keydown', on_input: true, context: ['notes>class:qa-ResizingSuggestLozenge-input', 'search>class:qa-ResizingSuggestLozenge-input'], fire: exit_tag_note, visible: true},
-    {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', 'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'], fire: new FireKey(9)},
-    {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
-    {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
-    {key: 13, name: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
-    {key: 'j', name: 'notebook_down', on: 'keypress', context: 'notebooks', fire: notebook_down_key},
-    {key: 'k', name: 'notebook_up', on: 'keypress', context: 'notebooks', fire: notebook_up_key},
-    {key: 13, name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
-    {key: 'l', name: 'notebook_select', on: 'keypress', context: 'notebooks', fire: notebook_select},
-    {key: 'd', name: 'delete_notebook', on: 'keypress', context: 'notebooks', fire: notebook_delete},
-    {key: 'e', name: 'email_notebook', on: 'keypress', context: 'notebooks', fire: notebook_email},
-    {key: 's', name: 'star_notebook', on: 'keypress', context: 'notebooks', fire: notebook_star},
-    {key: 'a', name: 'create_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
-    {key: 'a', name: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
-    {key: 'a', name: 'create_notebook', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
-    {key: 'f', name: 'search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},  // Keycode 102
-    {key: 'w', name: 'search_scope', on: 'keypress', context: 'search', fire: 'id:gwt-debug-activeScopeContainer'},
-    {key: 'a', name: 'save_search', on: 'keypress', context: 'search', fire: save_search},
-    {key: 'f', name: 'search_note', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},  // Keycode 102
-    {key: 'f', name: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},  // Keycode 102
-    {key: 'f', name: 'search_notebook', on: 'keypress', context: 'notebooks', fire: search_notebook},   // Keycode 102  //'id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'}]
-    {key: 'x', name: 'clear_search_tag', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-search-clear'},  // Keycode 120
-    {key: 'x', name: 'clear_search_note', on: 'keypress', context: 'search', fire: clear_search},  // Keycode 120
-    {key: 'x', name: 'clear_search_chat', on: 'keypress', context: 'workchat', fire: clear_search},  // Keycode 120
-    {key: 'x', name: 'clear_search_notebook', on: 'keypress', context: 'notebooks', fire: clear_search}  // Keycode 120
-]
+    {key: '/', help: 'Search', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-searchButton-container'},  // Keycode 47
+    {key: 'A', help: 'Add New Note', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},  // Keycode 97
+    {key: 'B', help: 'Notebooks', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},  // Keycode 98
+    {key: 'T', help: 'Goto Tags', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},  // Keycode 116
+    {key: 'S', help: 'Goto Shortcuts', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-shortcutsButton-container'},  // Keycode 115
+    {key: 'W', help: 'Goto Workchat', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},  // Keycode 119
+    {key: 'N', help: 'Goto Notes', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-notesButton-container'},  // Keycode 110
+    {key: 'C', help: 'Goto Config', group: 'side_bar', on: 'keypress', context: '!help', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
+    {key: 'j', help: 'Next note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
+    {key: 'k', help: 'Previous note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
+    {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: true},  // Keycode 107
+    {key: 'c', help: 'Change note title', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: true},  // Keycode 107
+    {key: 27, help: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
+    {key: 'e', help: 'Email note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root', visible: true},
+    {key: 's', help: 'Star note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton', visible: true},
+    {key: 'i', help: 'Info on note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton', visible: true},
+    {key: 'd', help: 'Delete note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton', visible: true},
+    {key: 'r', help: 'Reminder for note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-reminderButton', visible: true},
+    {key: 'b', help: 'Move note to noteBook', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NotebookSelectMenu-notebookName', visible: true},
+    {key: 't', help: 'Tag note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTagsView-tagInputBox', visible: true},
+    {key: 13, help: 'exec_move_note', on: 'keydown', on_input: true, context: ['notes>id:gwt-debug-NotebookSelectMenu-filter-textBox', 'search>id:gwt-debug-NotebookSelectMenu-filter-textBox'], fire: exec_move_note, visible: true},
+    {key: 27, help: 'exit_move_note', on: 'keydown', on_input: true, context: ['notes>class:qa-ResizingSuggestLozenge-input', 'search>class:qa-ResizingSuggestLozenge-input'], fire: exit_tag_note, visible: true},
+    {key: 27, help: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', 'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'], fire: new FireKey(9)},
+    {key: 27, help: 'Cancel/Exit field', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
+    {key: 13, help: 'Confirm', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
+    {key: 13, help: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
+    {key: 'j', help: 'Next notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_down_key},
+    {key: 'k', help: 'Previous notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_up_key},
+    {key: 13, help: 'Select Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_select},
+    {key: 'l', help: 'Select Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_select},
+    {key: 'd', help: 'Delete Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_delete},
+    {key: 'e', help: 'Email Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_email},
+    {key: 's', help: 'Star Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_star},
+    {key: 'a', help: 'Create tag/chat', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
+    {key: 'a', help: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
+    {key: 'a', help: 'Create Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
+    {key: 'f', help: 'Enter search field', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},  // Keycode 102
+    {key: 'w', help: 'Where to search', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-activeScopeContainer'},
+    {key: 'a', help: 'Save search', group: 'search', on: 'keypress', context: 'search', fire: save_search},
+    {key: 'f', help: 'Enter search field', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},  // Keycode 102
+    {key: 'f', help: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},  // Keycode 102
+    {key: 'f', help: 'Enter search field', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: search_notebook},   // Keycode 102  //'id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'}]
+    {key: 'x', help: 'Clear search field', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-search-clear'},  // Keycode 120
+    {key: 'x', help: 'Clear search field', group: 'search', on: 'keypress', context: 'search', fire: clear_search},  // Keycode 120
+    {key: 'x', help: 'clear_search_chat', on: 'keypress', context: 'workchat', fire: clear_search},  // Keycode 120
+    {key: 'x', help: 'Clear Search Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: clear_search},  // Keycode 120
+    {key: '?', help: 'Show/Hide Help', group: 'misc', on: 'keypress', fire: toggle_help},
+    {key: 27, help: 'exit_help', on: 'keydown', context: 'help', fire: hide_help}
+];
 
 
 var observer = undefined;
+var is_help_showing = false;
+var help_html = undefined;
+
+
+function convert_key(key) {
+    if (key == 13)
+        return '&#x23CE';
+    if (key == 27)
+        return 'Esc';
+    return key;
+}
+
+
+function get_key_group_html(group) {
+    elements = []
+    for (var i = 0; i < keys.length; ++i) {
+        shortcut = keys[i];
+        key_group = shortcut.group
+        if (!Array.isArray(key_group))
+            key_group = [key_group];
+
+        if (key_group.indexOf(group) > -1) {
+            elements.push('<tr class="evershortReset undefined"><td class="evershortReset">' + convert_key(shortcut.key) + '</td><td class="evershortReset">:</td><td class="evershortReset">' + shortcut.help + '</td></tr>');
+        }
+    }
+    return elements.join('');
+}
+
+function get_help_html() {
+    // We only load the html for the help once upon help request
+    if (!help_html) {
+        help_html = read_file('pages/help.html');
+        for (var i = 0; i < key_groups.length; ++i) {
+            group = key_groups[i];
+            help_html = help_html.replace('{{' + group + '}}', get_key_group_html(group));
+        }
+        help_html = help_html.replace('{{version}}', chrome.runtime.getManifest().version);
+    }
+    return help_html
+}
+
+function show_help(contents) {
+    if (!document.body)
+      return;
+
+    var container = document.createElement("div");
+    container.id = "evershortHelpDialogContainer";
+    container.className = "evershortReset";
+    document.body.appendChild(container);
+    container.innerHTML = get_help_html();
+    container.getElementsByClassName("closeButton")[0].addEventListener("click", hide_help, false);
+    var dialog_elem = document.getElementById("evershortHelpDialog");
+    dialog_elem.style.maxHeight = window.innerHeight - 80;
+    is_help_showing = true;
+}
+
+
+function hide_help(click_event) {
+    is_help_showing = false;
+    var helpDialog = document.getElementById("evershortHelpDialogContainer");
+    if (helpDialog)
+        helpDialog.parentNode.removeChild(helpDialog);
+    if (click_event && click_event.preventDefault)
+        return click_event.preventDefault();
+}
+
+
+function toggle_help(chr, evt, ctxt) {
+    if (is_help_showing)
+      hide_help();
+    else
+      show_help();
+}
 
 
 function tinymce_listener(evnt) {
@@ -373,24 +450,32 @@ function is_id_visible(id) {
 
 
 function get_context(target) {
+    if (is_help_showing)
+        return 'help';
+
     if (is_id_visible('gwt-debug-GlassModalDialog-container'))
         return 'modal_dialog';
-    else if (target && is_id_visible('gwt-debug-NoteContentEditorView-root') &&
+
+    if (target && is_id_visible('gwt-debug-NoteContentEditorView-root') &&
              target.id === 'gwt-debug-NoteContentEditorView-root')
         return 'editor';
-    else if (document.getElementById('gwt-debug-NotebooksDrawer-createNotebookButton'))
+
+    if (document.getElementById('gwt-debug-NotebooksDrawer-createNotebookButton'))
         return 'notebooks';
-    else if (document.getElementById('gwt-debug-WorkChatDrawer-startChatButton'))
+
+    if (document.getElementById('gwt-debug-WorkChatDrawer-startChatButton'))
         return 'workchat';
-    else if (is_id_visible('gwt-debug-ShortcutsDrawer-title'))
+
+    if (is_id_visible('gwt-debug-ShortcutsDrawer-title'))
         return 'shortcuts';
-    else if (document.getElementsByClassName('focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon').length)
+
+    if (document.getElementsByClassName('focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon').length)
         return 'tags';
     else {
         var s = document.getElementById('gwt-debug-searchViewSearchBox');
         if (window.getComputedStyle(s.parentElement.parentElement.parentElement).overflow === 'visible')
             return 'search';
-        else if (document.getElementById('gwt-debug-notesListView'))
+        if (document.getElementById('gwt-debug-notesListView'))
             return 'notes';
     }
 

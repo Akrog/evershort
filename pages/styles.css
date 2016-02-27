@@ -1,0 +1,143 @@
+.evershortReset,
+div.evershortReset,
+span.evershortReset,
+table.evershortReset,
+a.evershortReset,
+a:visited.evershortReset,
+a:link.evershortReset,
+a:hover.evershortReset,
+td.evershortReset,
+tr.evershortReset {
+  background: none;
+  border: none;
+  bottom: auto;
+  box-shadow: none;
+  color: black;
+  cursor: auto;
+  display: inline;
+  float: none;
+  font-family : "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: inherit;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  height: auto;
+  left: auto;
+  letter-spacing: 0;
+  line-height: 100%;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  min-height: 0;
+  min-width: 0;
+  opacity: 1;
+  padding: 0;
+  position: static;
+  right: auto;
+  text-align: left;
+  text-decoration: none;
+  text-indent: 0;
+  text-shadow: none;
+  text-transform: none;
+  top: auto;
+  vertical-align: baseline;
+  white-space: normal;
+  width: auto;
+  z-index: 2147483648;
+}
+
+
+/* Help Dialog CSS */
+
+div#evershortHelpDialog {
+  border:3px solid red;
+  opacity:0.92;
+  background-color:#f8f8f8;
+  position:fixed;
+  border:2px solid #b3b3b3;
+  border-radius:6px;
+  padding:8px 12px;
+  width:440px;
+  max-height: 85%;
+  left:50%;
+  /* This needs to be 1/2 width to horizontally center the help dialog */
+  margin-left:-220px;
+  top:50px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 6px;
+  overflow-y: auto;
+  /* One less than evershortReset */
+  z-index: 2147483647;
+}
+
+div#evershortHelpDialog a { color:#2dbe60; }
+div#evershortTitle, div#evershortTitle span,  div#evershortTitle * { font-size:25px; font-weight: bold; }
+#evershortTitle {
+  display: block;
+  line-height: 130%;
+  font-weight: bold;
+
+}
+div.evershortColumn {
+  width:50%;
+  float:left;
+  font-size: 11px;
+  line-height: 130%;
+}
+
+div.evershortColumn tr {
+    display: table-row;
+}
+
+div.evershortColumn td {
+    display: table-cell;
+    font-size: 11px;
+    line-height: 130%;
+}
+div.evershortColumn table, div.evershortColumn td, div.evershortColumn tr { padding:0; margin:0; }
+div.evershortColumn table { width:100%; table-layout:auto; }
+div.evershortColumn td { vertical-align:top; padding:1px; }
+div#evershortHelpDialog div.evershortColumn tr > td:first-of-type {
+  text-align:right;
+  font-weight:bold;
+  color:#2dbe60;
+  white-space:nowrap;
+}
+/* Make the description column as wide as it can be. */
+div#evershortHelpDialog div.evershortColumn tr > td:nth-of-type(3) { width:100%; }
+div#evershortHelpDialog div.evershortDivider {
+  display: block;
+  height:1px;
+  width:92%;
+  margin:10px auto;
+  background-color:#9a9a9a;
+}
+div#evershortHelpDialog td.evershortHelpSectionTitle {
+  font-size:15px;
+  font-weight:bold;
+  padding-top:3px;
+}
+div#evershortHelpDialog div.commandName { font-family:"courier new"; }
+div#evershortHelpDialog a.closeButton {
+  position:absolute;
+  right:7px;
+  top:5px;
+  font-family:"courier new";
+  font-weight:bold;
+  color:#555;
+  text-decoration:none;
+  padding-left:10px;
+  font-size:20px;
+}
+div#evershortHelpDialog a {
+  text-decoration: underline;
+}
+
+div#evershortHelpDialog a.closeButton:hover {
+  color:black;
+  -webkit-user-select:none;
+}
+div#evershortHelpDialogFooter {
+  display: block;
+  position: relative;
+}
+div#evershortHelpDialogFooter * { font-size:10px; }
