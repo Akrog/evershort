@@ -14,6 +14,9 @@ var keys = [
     {key: 'C', name: 'config', on: 'keypress', context: 'global', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', name: 'notes_down', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
     {key: 'k', name: 'notes_up', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
+    {key: 'l', name: 'notes_edit', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: true},  // Keycode 107
+    {key: 'c', name: 'notes_title', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: true},  // Keycode 107
+    {key: 27, name: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
     {key: 'e', name: 'email_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root', visible: true},
     {key: 's', name: 'star_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton', visible: true},
     {key: 'i', name: 'info_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton', visible: true},
@@ -23,7 +26,7 @@ var keys = [
     {key: 't', name: 'tag_note', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTagsView-tagInputBox', visible: true},
     {key: 13, name: 'exec_move_note', on: 'keydown', on_input: true, context: ['notes>id:gwt-debug-NotebookSelectMenu-filter-textBox', 'search>id:gwt-debug-NotebookSelectMenu-filter-textBox'], fire: exec_move_note, visible: true},
     {key: 27, name: 'exit_move_note', on: 'keydown', on_input: true, context: ['notes>class:qa-ResizingSuggestLozenge-input', 'search>class:qa-ResizingSuggestLozenge-input'], fire: exit_tag_note, visible: true},
-    {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'], fire: new FireKey(9)},
+    {key: 27, name: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', 'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'], fire: new FireKey(9)},
     {key: 27, name: 'cancel_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'confirm_modal_dialog', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, name: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
@@ -50,12 +53,62 @@ var keys = [
 ]
 
 
+var observer = undefined;
+
+
+function tinymce_listener(evnt) {
+    var char = evnt.key || evnt.which || evnt.KeyCode || evnt.charCode;
+    if (char === 27)
+        return exit_field(27, evnt);
+}
+
+
+function tinymce_observer(mutations) {
+    mutations.forEach(function(mutation) {
+        for (var i = 0; i < mutation.addedNodes.length; i++) {
+            iframe = mutation.target && search_by_id(mutation.addedNodes[i], 'entinymce_170_ifr');
+            if (iframe) {
+                var result = add_tinymce_listener(iframe);
+                if (result) {
+                    observer.disconnect();
+                    return;
+                }
+            }
+        }
+    })
+}
+
+
+function add_tinymce_listener(iframe) {
+    var doc = iframe && iframe.contentDocument;
+    var tinymce = doc && doc.getElementById('tinymce');
+    if (tinymce)
+        tinymce.addEventListener('keydown', tinymce_listener, true);
+    return tinymce;
+}
+
+
 function init_evershort() {
     keymanager.init(get_context);
     for (var i=0; i<keys.length; ++i) {
         var value = keys[i];
         keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front, value.visible);
     }
+
+    // Now we need to add the key listener for the tinymce because it's in
+    // another document (iframe)
+    var iframe = document.getElementById('entinymce_170_ifr');
+
+    if (iframe) {
+        // If we were able to add the key listener we are finished
+        if (add_tinymce_listener(iframe))
+            return;
+    }
+
+    // If it's not there yet, add an observer that will add our listener later
+    var editor = document.getElementById('gwt-debug-NoteContentEditorView-root');
+    observer = new MutationObserver(tinymce_observer);
+    observer.observe(editor, { childList: true, subtree: true });
 }
 
 
@@ -205,8 +258,20 @@ function notebook_select(char, event) {
 function search_by_class(elem, cls) {
     if (elem.classList.contains(cls))
         return elem;
-    for (var i=0; i<elem.children.length; ++i) {
+    for (var i=0; elem.children && i<elem.children.length; ++i) {
         found = search_by_class(elem.children[i], cls);
+        if (found)
+            return found;
+    }
+    return undefined;
+}
+
+
+function search_by_id(elem, id) {
+    if (elem.id === id)
+        return elem;
+    for (var i=0; elem.children && i<elem.children.length; ++i) {
+        found = search_by_id(elem.children[i], id);
         if (found)
             return found;
     }
@@ -307,9 +372,12 @@ function is_id_visible(id) {
 }
 
 
-function get_context(context, event) {
+function get_context(target) {
     if (is_id_visible('gwt-debug-GlassModalDialog-container'))
         return 'modal_dialog';
+    else if (target && is_id_visible('gwt-debug-NoteContentEditorView-root') &&
+             target.id === 'gwt-debug-NoteContentEditorView-root')
+        return 'editor';
     else if (document.getElementById('gwt-debug-NotebooksDrawer-createNotebookButton'))
         return 'notebooks';
     else if (document.getElementById('gwt-debug-WorkChatDrawer-startChatButton'))
