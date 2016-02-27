@@ -78,6 +78,13 @@ var keymanager = {
         return negate;
     },
 
+    check_visibility: function(visible, element) {
+        var extra_element;
+        if (typeof(visible) === 'string')
+            extra_element = parse_path(visible)[0];
+        return element && (!visible || is_visible(element) || (extra_element && is_visible(extra_element)));
+    },
+
     manager: function (event) {
         log('key manager');
         log(event);
@@ -98,7 +105,8 @@ var keymanager = {
                 if (typeof(handler.fire) === 'string') {
                     log('Event click');
                     var element = parse_path(handler.fire)[0];
-                    if (element && (!handler.visible || is_visible(element))) {
+                    if (this.check_visibility(handler.visible, element)) {
+                        element.scrollIntoViewIfNeeded();
                         element.focus();
                         element.click();
                         stop = true;
