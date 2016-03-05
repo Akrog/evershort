@@ -1,9 +1,10 @@
 {
     "manifest_version": 2,
     "name": "Evernote Shortcuts",
-    "version": "0.0.1",
+    "short_name": "evershort",
+    "version": "0.1.0",
 
-    "description": "This extension adds shortcuts to Evernote web.",
+    "description": "EverShort provides keyboard shortcuts to EverNote.",
     "author": "Gorka Eguileor",
 
     "permissions": [ "https://*.evernote.com/Home.action*", "https://evernote.com/Home.action*" ],
