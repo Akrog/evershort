@@ -283,17 +283,11 @@ function get_selected_notebook_search_element() {
     // Get list of all loaded notebooks
     var t = document.getElementsByClassName("qa-notebookWidget");
 
-    if (t.length === 0)
-        return {selected: undefined, all: t, index: undefined};
-
-    // Construct the hover class that gets added when mouseover
-    var cls = t[0].classList[0];
-    var selected_class = cls.substr(0, cls.length-3) + 'B' + cls.substr(cls.length-2);
-
-    // Search for a notebook element that has that class
-    for(var index = 0; index<t.length; ++index)
-        if (t[index].classList.contains(selected_class))
+    for(var index = 0; index<t.length; ++index) {
+        if (window.getComputedStyle(t[index])['background-color'] === 'rgba(43, 181, 92, 0.901961)') {
             return {selected: t[index], all: t, index: index};
+        }
+    }
     return {selected: undefined, all: t, index: undefined};
 }
 
@@ -301,6 +295,10 @@ function get_selected_notebook_search_element() {
 function select_notebook_search_element(offset) {
     offset |= 0;
     result = get_selected_notebook_search_element();
+    // If there is no selected element we will consider selecting the first
+    // element as 1 movement.
+    if (result.index == undefined)
+        --offset;
     // Offset will be limited by the existing notebook elements
     result.index |= 0;
     index = Math.min(Math.max(result.index + offset, 0), result.all.length);
@@ -396,11 +394,15 @@ function exec_search_notebook() {
     var result = select_notebook_search_element();
     // If we find notebooks with the query
     if (result.selected) {
-        // Exit the search field
-        exit_field(27, {target: result.selected});
         // If we only find 1 notebook we will open it
-        if (result.total === 1)
+        if (result.total === 1) {
             result.selected.click();
+        } else {
+            // Exit the search field
+            setTimeout(function() {
+                    exit_field(27, {target: result.selected});
+            }, 150);
+        }
     }
     // We don't want any more key events to be processed
     return true;
