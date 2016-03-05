@@ -52,6 +52,9 @@ var keys = [
     {key: 'x', help: 'Clear search field', group: 'search', on: 'keypress', context: 'search', fire: clear_search},  // Keycode 120
     {key: 'x', help: 'clear_search_chat', on: 'keypress', context: 'workchat', fire: clear_search},  // Keycode 120
     {key: 'x', help: 'Clear Search Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: clear_search},  // Keycode 120
+    {key: 'F', help: 'Focus toggle', group: 'note_operations', on: 'keydown', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-focusButton', visible: true},
+    {key: 'F', on: 'keydown', fire: 'id:gwt-debug-NoteAttributes-doneButton', visible: true},
+    {key: 27, on: 'keydown', fire: 'id:gwt-debug-NoteAttributes-doneButton', visible: true},
     {key: '?', help: 'Show/Hide Help', group: 'misc', on: 'keypress', fire: toggle_help},
     {key: 27, help: 'exit_help', on: 'keydown', context: 'help', fire: hide_help}
 ];
