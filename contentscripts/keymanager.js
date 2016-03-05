@@ -91,7 +91,7 @@ var keymanager = {
         var char = event.key || event.which || event.KeyCode || event.charCode;
         log('DePressed: ' + char);
 
-        var was_handled = false;
+        var stop = false;
 
         var handlers = this.shortcuts[char] || [];
         if (!Array.isArray(handlers))
