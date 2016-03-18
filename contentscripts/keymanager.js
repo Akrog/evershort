@@ -103,20 +103,24 @@ var keymanager = {
                     (handler.on_input || this.not_input_element(event.target)) &&
                     this.is_in_context(handler.context, event.target)) {
                 if (typeof(handler.fire) === 'string') {
-                    log('Event click');
                     var element = parse_path(handler.fire)[0];
                     if (this.check_visibility(handler.visible, element)) {
+                        log('Click event for ' + handler.fire);
                         element.scrollIntoViewIfNeeded();
                         element.focus();
                         element.click();
                         stop = true;
+                    } else {
+                        log('Skipping non-visible click event for ' + handler.fire);
                     }
+
                 } else if (handler.fire instanceof FireKey) {
+                    log('Firing key ' + handler.fire.key_code);
                     var evt = generate_keyevent('keydown', handler.fire.key_code);
                     event.target.dispatchEvent(evt);
                     stop = true;
                 } else {
-                    log('Event Fire');
+                    log('Event Fire method ' + handler.fire.name);
                     stop = handler.fire(char, event, handler.context);
                 }
                 if (stop) {
