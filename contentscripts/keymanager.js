@@ -33,7 +33,7 @@ var keymanager = {
             fire: fire,
             context: context,
             on_input: on_input,
-            visible: visible,
+            visible: visible || false,
         };
 
         if (to_front)
@@ -78,11 +78,20 @@ var keymanager = {
         return negate;
     },
 
-    check_visibility: function(visible, element) {
-        var extra_element;
+    check_string_visibility: function(visible) {
+        // Always return true if we don't care about the visibility and return
+        // false if we care but it's dependent on the object
+        if (typeof(visible) === 'boolean')
+            return true
+        element = parse_path(visible)[0];
+        return is_visible(element);
+    },
+
+    check_elem_visibility: function(visible, element) {
+        // We don't care about strings, only about booleans
         if (typeof(visible) === 'string')
-            extra_element = parse_path(visible)[0];
-        return element && (!visible || is_visible(element) || (extra_element && is_visible(extra_element)));
+            return Boolean(element)
+        return element && (!visible || is_visible(element));
     },
 
     manager: function (event) {
@@ -101,10 +110,11 @@ var keymanager = {
             var handler = handlers[i];
             if ((handler.on === event.type) &&
                     (handler.on_input || this.not_input_element(event.target)) &&
-                    this.is_in_context(handler.context, event.target)) {
+                    this.is_in_context(handler.context, event.target) &&
+                    this.check_string_visibility(handler.visible)) {
                 if (typeof(handler.fire) === 'string') {
                     var element = parse_path(handler.fire)[0];
-                    if (this.check_visibility(handler.visible, element)) {
+                    if (this.check_elem_visibility(handler.visible, element)) {
                         log('Click event for ' + handler.fire);
                         element.scrollIntoViewIfNeeded();
                         element.focus();
