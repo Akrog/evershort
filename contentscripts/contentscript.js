@@ -145,11 +145,16 @@ function tinymce_listener(evnt) {
 
 function tinymce_observer(mutations) {
     mutations.forEach(function(mutation) {
+        log('Tinymcs observing ' + mutation.addedNodes.length + ' new nodes');
         for (var i = 0; i < mutation.addedNodes.length; i++) {
-            iframe = mutation.target && search_by_id(mutation.addedNodes[i], 'entinymce_170_ifr');
+            iframe = mutation.target && search_by_field(mutation.addedNodes[i],
+                                                        'name',
+                                                        'RichTextArea-entinymce');
             if (iframe) {
+                log('Found RichTextArea');
                 var result = add_tinymce_listener(iframe);
                 if (result) {
+                    log('Disconnecting observer');
                     observer.disconnect();
                     return;
                 }
@@ -164,6 +169,8 @@ function add_tinymce_listener(iframe) {
     var tinymce = doc && doc.getElementById('tinymce');
     if (tinymce)
         tinymce.addEventListener('keydown', tinymce_listener, true);
+    else
+        log('Tinymce editor not found in iframe');
     return tinymce;
 }
 
@@ -177,16 +184,22 @@ function init_evershort() {
 
     // Now we need to add the key listener for the tinymce because it's in
     // another document (iframe)
-    var iframe = document.getElementById('entinymce_170_ifr');
-
-    if (iframe) {
+    var iframe = document.getElementsByName('RichTextArea-entinymce');
+    if (iframe && iframe.length) {
+        log('Found RichTextArea on init');
         // If we were able to add the key listener we are finished
-        if (add_tinymce_listener(iframe))
+        if (add_tinymce_listener(iframe[0]))
             return;
     }
 
     // If it's not there yet, add an observer that will add our listener later
     var editor = document.getElementById('gwt-debug-NoteContentEditorView-root');
+    if (editor) {
+        log('Adding tinymce observer to NoteContentEditorView');
+    } else {
+        editor = document;
+        log('Adding tinymce observer to document');
+    }
     observer = new MutationObserver(tinymce_observer);
     observer.observe(editor, { childList: true, subtree: true });
 }
@@ -345,11 +358,11 @@ function search_by_class(elem, cls) {
 }
 
 
-function search_by_id(elem, id) {
-    if (elem.id === id)
-        return elem;
+function search_by_field(elem, field, content) {
+    if (elem[field] === content)
+        return elem
     for (var i=0; elem.children && i<elem.children.length; ++i) {
-        found = search_by_id(elem.children[i], id);
+        found = search_by_field(elem.children[i], field, content);
         if (found)
             return found;
     }
