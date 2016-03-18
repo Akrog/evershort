@@ -95,6 +95,7 @@ Release Notes
 
 - Fix issue with notes focus on seareched notes.
 - Fix exit from editing a note with ESC functionality.
+- Fix saving search shortcut.
 
 0.1.0 (2016-03-05)
 

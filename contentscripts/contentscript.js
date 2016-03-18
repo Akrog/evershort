@@ -277,10 +277,10 @@ function exit_tag_note(char, event) {
 function save_search(char, event) {
     field = document.getElementById('gwt-debug-searchViewSearchBox');
     if (field.value) {
-        elem = document.getElementsByClassName('GCBHGQQBPTB GCBHGQQBBD');
-        if (elem[0] && elem[0].textContent === 'Save search') {
-            elem[0].click();
-        }
+        parent_elem = document.getElementById('gwt-debug-stage')
+        elem = search_by_field(parent_elem, 'textContent', 'Save search')
+        if (elem)
+            elem.click();
     }
 }
 
