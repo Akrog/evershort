@@ -14,8 +14,8 @@ var keys = [
     {key: 'W', help: 'Goto Workchat', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-workChatButton-container'},  // Keycode 119
     {key: 'N', help: 'Goto Notes', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-notesButton-container'},  // Keycode 110
     {key: 'C', help: 'Goto Config', group: 'side_bar', on: 'keypress', context: '!help', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
-    {key: 'j', help: 'Next note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_down_key},  // Keycode 106
-    {key: 'k', help: 'Previous note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_up_key},  // Keycode 107
+    {key: 'j', help: 'Next note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_down_key, visible:'class:NotesView-ScrollWindow'},  // Keycode 106
+    {key: 'k', help: 'Previous note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_up_key, visible:'class:NotesView-ScrollWindow'},  // Keycode 107
     {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: true},  // Keycode 107
     {key: 'c', help: 'Change note title', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: 'id:gwt-debug-NoteAttributes-overflowButton'},
     {key: 27, help: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
@@ -32,8 +32,8 @@ var keys = [
     {key: 27, help: 'Cancel/Exit field', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, help: 'Confirm', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, help: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
-    {key: 'j', help: 'Next notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_down_key},
-    {key: 'k', help: 'Previous notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_up_key},
+    {key: 'j', help: 'Next notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_down_key, visible:'id:gwt-debug-NotebooksDrawerView-root'},
+    {key: 'k', help: 'Previous notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_up_key, visible:'id:gwt-debug-NotebooksDrawerView-root'},
     {key: 13, help: 'Select Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_select},
     {key: 'l', help: 'Select Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_select},
     {key: 'd', help: 'Delete Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: notebook_delete},
@@ -43,13 +43,13 @@ var keys = [
     {key: 'a', help: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
     {key: 'a', help: 'Create Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
     {key: 'f', help: 'Enter search field', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},  // Keycode 102
-    {key: 'w', help: 'Where to search', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-activeScopeContainer'},
-    {key: 'a', help: 'Save search', group: 'search', on: 'keypress', context: 'search', fire: save_search},
-    {key: 'f', help: 'Enter search field', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox'},  // Keycode 102
+    {key: 'w', help: 'Where to search', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-activeScopeContainer', visible: true},
+    {key: 'a', help: 'Save search', group: 'search', on: 'keypress', context: 'search', fire: save_search, visible: 'id:gwt-debug-searchViewSearchBox'},
+    {key: 'f', help: 'Enter search field', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox', visible: true},  // Keycode 102
     {key: 'f', help: 'search_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-drawerFilter-textBox'},  // Keycode 102
     {key: 'f', help: 'Enter search field', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: search_notebook},   // Keycode 102  //'id:gwt-debug-NotebooksDrawer-drawerFilter-textBox'}]
     {key: 'x', help: 'Clear search field', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-search-clear'},  // Keycode 120
-    {key: 'x', help: 'Clear search field', group: 'search', on: 'keypress', context: 'search', fire: clear_search},  // Keycode 120
+    {key: 'x', help: 'Clear search field', group: 'search', on: 'keypress', context: 'search', fire: clear_search, visible: 'id:gwt-debug-searchViewSearchBox'},  // Keycode 120
     {key: 'x', help: 'clear_search_chat', on: 'keypress', context: 'workchat', fire: clear_search},  // Keycode 120
     {key: 'x', help: 'Clear Search Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: clear_search},  // Keycode 120
     {key: 'F', help: 'Focus toggle', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-focusButton', visible: true},
