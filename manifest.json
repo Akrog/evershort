@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Evernote Shortcuts",
     "short_name": "evershort",
-    "version": "0.1.0",
+    "version": "0.1.1",
 
     "description": "EverShort provides keyboard shortcuts to EverNote.",
     "author": "Gorka Eguileor",

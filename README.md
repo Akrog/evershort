@@ -91,7 +91,7 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
-0.1.1 (2016-03-xx)
+0.1.1 (2016-03-19)
 
 - Fix issue with notes focus on seareched notes.
 - Fix exit from editing a note with ESC functionality.
