@@ -28,7 +28,11 @@ var keys = [
     {key: 't', help: 'Tag note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTagsView-tagInputBox', visible: true},
     {key: 13, help: 'exec_move_note', on: 'keydown', on_input: true, context: ['notes>id:gwt-debug-NotebookSelectMenu-filter-textBox', 'search>id:gwt-debug-NotebookSelectMenu-filter-textBox'], fire: exec_move_note, visible: true},
     {key: 27, help: 'exit_move_note', on: 'keydown', on_input: true, context: ['notes>class:qa-ResizingSuggestLozenge-input', 'search>class:qa-ResizingSuggestLozenge-input'], fire: exit_tag_note, visible: true},
-    {key: 27, help: 'exit_search_field', on: 'keydown', on_input: true, context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox', 'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', 'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'], fire: new FireKey(9)},
+    {key: 27, help: 'exit_search_field', on: 'keydown', on_input: true, 
+     context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox',
+               'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox',
+               'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'],
+     fire: new FireKey(9, true)},
     {key: 27, help: 'Cancel/Exit field', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, help: 'Confirm', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, help: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
@@ -42,7 +46,7 @@ var keys = [
     {key: 'a', help: 'Create tag/chat', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-TagsDrawer-TagsDrawer-create-tag-icon'},  // Keycode 99
     {key: 'a', help: 'create_chat', on: 'keypress', context: 'workchat', fire: 'id:gwt-debug-WorkChatDrawer-startChatButton'},  // Keycode 99
     {key: 'a', help: 'Create Notebook', group: 'book_keys', on: 'keypress', context: 'notebooks', fire: 'id:gwt-debug-NotebooksDrawer-createNotebookButton'},  // Keycode 99
-    {key: 'f', help: 'Enter search field', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-placeholder'},  // Keycode 102
+    {key: 'f', help: 'Enter search field', group: 'misc', on: 'keypress', context: 'tags', fire: 'class:focus-drawer-Filter-input'},  // Keycode 102
     {key: 'w', help: 'Where to search', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-activeScopeContainer', visible: true},
     {key: 'a', help: 'Save search', group: 'search', on: 'keypress', context: 'search', fire: save_search, visible: 'id:gwt-debug-searchViewSearchBox'},
     {key: 'f', help: 'Enter search field', group: 'search', on: 'keypress', context: 'search', fire: 'id:gwt-debug-searchViewSearchBox', visible: true},  // Keycode 102

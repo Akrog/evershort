@@ -1,4 +1,4 @@
-function FireKey(key) {
+function FireKey(key, shiftkey) {
     if (typeof(key) === "string") {
         this.key = key;
         this.key_code = key.charCodeAt(0);
@@ -6,6 +6,7 @@ function FireKey(key) {
         this.key_code = key;
         this.key = String.fromCharCode(key);
     }
+    this.shiftkey = shiftkey;
 }
 
 
@@ -126,7 +127,7 @@ var keymanager = {
 
                 } else if (handler.fire instanceof FireKey) {
                     log('Firing key ' + handler.fire.key_code);
-                    var evt = generate_keyevent('keydown', handler.fire.key_code);
+                    var evt = generate_keyevent('keydown', handler.fire.key_code, handler.fire.shiftkey);
                     event.target.dispatchEvent(evt);
                     stop = true;
                 } else {
