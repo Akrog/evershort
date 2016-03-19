@@ -16,7 +16,9 @@ function parse_path(path) {
     if (last.length > 1) {
         var method_name = methods[last[0]];
         var result = document[method_name](last[1]);
-        if (result && result.length)
+        if (!result || result.length === 0)
+            result = undefined;
+        else if (result.length)
             result = result[last[2] || 0];
         paths[paths.length - 1] = result;
     }
