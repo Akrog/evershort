@@ -98,6 +98,7 @@ Release Notes
 - Fix saving search shortcut.
 - Fix issues with focused notes that allowed the execution of non visible actions.
 - Fix issues entering and exiting tag search field.
+- Fix move note and tags when displaying formatting bar.
 
 0.1.0 (2016-03-05)
 
