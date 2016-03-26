@@ -6,7 +6,7 @@ window.addEventListener('load', function(){setTimeout(init_evershort, 2000);}, f
 var key_groups = [ 'side_bar', 'note_operations', 'note_navigation', 'book_keys', 'misc', 'search' ];
 
 var keys = [
-    {key: '/', help: 'Search', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-searchButton-container'},  // Keycode 47
+    {key: '/', help: 'Search', group: 'side_bar', on: 'keypress', context: '!help', fire: goto_search},  // Keycode 47
     {key: 'A', help: 'Add New Note', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-newNoteButton-container'},  // Keycode 97
     {key: 'B', help: 'Notebooks', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-notebooksButton-container'},  // Keycode 98
     {key: 'T', help: 'Goto Tags', group: 'side_bar', on: 'keypress', context: '!help', fire: 'id:gwt-debug-Sidebar-tagsButton-container'},  // Keycode 116
@@ -104,6 +104,19 @@ function get_help_html() {
         help_html = help_html.replace('{{version}}', chrome.runtime.getManifest().version);
     }
     return help_html
+}
+
+function goto_search(char, event) {
+    // If we have a focussed note, we have to unfocus or it will be improperly
+    // displayed
+    var element = document.getElementById('gwt-debug-NoteAttributes-doneButton');
+    if (is_visible(element))
+        element.click();
+
+    // Now we click the search button
+    element = document.getElementById('gwt-debug-Sidebar-searchButton-container');
+    element.click();
+    return true;
 }
 
 function show_help(contents) {

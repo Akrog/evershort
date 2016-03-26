@@ -94,10 +94,11 @@ Release Notes
 0.x.x (2016-03-xx)
 
 - Fix note navigation problem with j and k
+- Fix problem with / shortcut on focussed note.
 
 0.1.1 (2016-03-19)
 
-- Fix issue with notes focus on seareched notes.
+- Fix issue with notes focus on searched notes.
 - Fix exit from editing a note with ESC functionality.
 - Fix saving search shortcut.
 - Fix issues with focused notes that allowed the execution of non visible actions.
