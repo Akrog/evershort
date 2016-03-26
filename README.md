@@ -91,6 +91,10 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.x.x (2016-03-xx)
+
+- Fix note navigation problem with j and k
+
 0.1.1 (2016-03-19)
 
 - Fix issue with notes focus on seareched notes.

@@ -435,32 +435,52 @@ function exec_move_note() {
 }
 
 
-function note_down_key(char, event) {
-    var s = document.getElementsByClassName('focus-NotesView-Note-selected');
-    log('note_down_key')
-    s = s && s[0];
-    if (is_visible(s)) {
-        var element = s.nextElementSibling;
-        if (element) {
-            element.scrollIntoViewIfNeeded();
-            element.click();
-        }
+function goto_note(offset) {
+    // Get all notes
+    var notes = document.getElementsByClassName('focus-NotesView-Note');
+    if (!notes)
+        return
+
+    // Get selected note
+    var selected = document.getElementsByClassName('focus-NotesView-Note-selected');
+    selected = selected && selected[0];
+
+    var current = 0;
+
+    // If there is no selected note we'll consider first note as selected and
+    // we'll consider the first offset spent to get there.
+    if (!selected) {
+        offset -= 1;
+    } else {
+        if (!is_visible(selected))
+            return
+        while (notes[current] != selected)
+            ++current;
     }
+
+    var dest_pos = current + offset;
+    if (dest_pos < 0)
+        dest_pos = 0;
+    else if (dest_pos >= notes.length)
+        dest_pos = notes.length - 1;
+    element = notes[dest_pos]
+    if (element) {
+        element.scrollIntoViewIfNeeded();
+        element.click();
+    }
+}
+
+
+function note_down_key(char, event) {
+    log('note_down_key')
+    goto_note(1);
     return true;
 }
 
 
 function note_up_key(char, event) {
     log('note_up_key')
-    var s = document.getElementsByClassName('focus-NotesView-Note-selected');
-    s = s && s[0];
-    if (is_visible(s)) {
-        var element = s.previousElementSibling;
-        if (element) {
-            element.scrollIntoViewIfNeeded();
-            element.click();
-        }
-    }
+    goto_note(-1);
     return true;
 }
 
