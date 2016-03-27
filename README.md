@@ -91,7 +91,7 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
-0.x.x (2016-03-xx)
+0.1.2 (2016-03-27)
 
 - Fix note navigation problem with j and k.
 - Fix problem with / shortcut on focussed note.
