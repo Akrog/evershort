@@ -16,7 +16,7 @@ var keys = [
     {key: 'C', help: 'Goto Config', group: 'side_bar', on: 'keypress', context: '!help', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', help: 'Next note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_down_key, visible:'class:NotesView-ScrollWindow'},  // Keycode 106
     {key: 'k', help: 'Previous note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_up_key, visible:'class:NotesView-ScrollWindow'},  // Keycode 107
-    {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: true},  // Keycode 107
+    {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: 'id:gwt-debug-MetaBarView-tagIcon'},  // Keycode 107
     {key: 'c', help: 'Change note title', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: 'id:gwt-debug-NoteAttributes-overflowButton'},
     {key: 27, help: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
     {key: 'e', help: 'Email note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root', visible: true},

@@ -93,8 +93,9 @@ Release Notes
 
 0.x.x (2016-03-xx)
 
-- Fix note navigation problem with j and k
+- Fix note navigation problem with j and k.
 - Fix problem with / shortcut on focussed note.
+- Fix problem to enter notes with the l key when notes were too big.
 
 0.1.1 (2016-03-19)
 
