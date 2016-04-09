@@ -94,6 +94,7 @@ Release Notes
 x.y.z (2016-04-xx)
 
 - Fix ESC from help cancels note creation and doesn't hide help dialog.
+- Fix caption change on new note with no caption or contents.
 
 0.1.2 (2016-03-27)
 
