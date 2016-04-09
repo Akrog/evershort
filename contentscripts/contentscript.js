@@ -60,7 +60,7 @@ var keys = [
     {key: 'F', on: 'keypress', fire: 'id:gwt-debug-NoteAttributes-doneButton', visible: true},
     {key: 27, on: 'keydown', fire: 'id:gwt-debug-NoteAttributes-doneButton', visible: true},
     {key: '?', help: 'Show/Hide Help', group: 'misc', on: 'keypress', fire: toggle_help},
-    {key: 27, help: 'exit_help', on: 'keydown', context: 'help', fire: hide_help}
+    {key: 27, help: 'exit_help', on: 'keydown', context: 'help', to_front: true, fire: hide_help}
 ];
 
 
@@ -141,7 +141,8 @@ function hide_help(click_event) {
     if (helpDialog)
         helpDialog.parentNode.removeChild(helpDialog);
     if (click_event && click_event.preventDefault)
-        return click_event.preventDefault();
+        click_event.preventDefault();
+    return true
 }
 
 

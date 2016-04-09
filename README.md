@@ -91,6 +91,10 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+x.y.z (2016-04-xx)
+
+- Fix ESC from help cancels note creation and doesn't hide help dialog.
+
 0.1.2 (2016-03-27)
 
 - Fix note navigation problem with j and k.
