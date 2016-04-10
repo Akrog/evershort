@@ -3,7 +3,7 @@ DEBUG_MODE = false;
 window.addEventListener('load', function(){setTimeout(init_evershort, 2000);}, false);
 
 
-var key_groups = [ 'side_bar', 'note_operations', 'note_navigation', 'book_keys', 'misc', 'search' ];
+var key_groups = [ 'side_bar', 'note_operations', 'note_navigation', 'book_keys', 'misc', 'search', 'config' ];
 
 var keys = [
     {key: '/', help: 'Search', group: 'side_bar', on: 'keypress', context: '!help', fire: goto_search},  // Keycode 47
@@ -28,7 +28,7 @@ var keys = [
     {key: 't', help: 'Tag note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTagsView-tagInputBox', visible: 'id:gwt-debug-MetaBarView-tagIcon'},
     {key: 13, help: 'exec_move_note', on: 'keydown', on_input: true, context: ['notes>id:gwt-debug-NotebookSelectMenu-filter-textBox', 'search>id:gwt-debug-NotebookSelectMenu-filter-textBox'], fire: exec_move_note, visible: true},
     {key: 27, help: 'exit_move_note', on: 'keydown', on_input: true, context: ['notes>class:qa-ResizingSuggestLozenge-input', 'search>class:qa-ResizingSuggestLozenge-input'], fire: exit_tag_note, visible: true},
-    {key: 27, help: 'exit_search_field', on: 'keydown', on_input: true, 
+    {key: 27, help: 'exit_search_field', on: 'keydown', on_input: true,
      context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox',
                'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox',
                'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'],
@@ -68,7 +68,11 @@ var keys = [
     {key: 'ot', help: 'Sort by title (ascending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
     {key: 'oT', help: 'Sort by title (descending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
     {key: 'vi', help: 'Toggle view images', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: view_option, visible:'class:NotesView-ScrollWindow'},
-    {key: 'vt', help: 'Toggle view text', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: view_option, visible:'class:NotesView-ScrollWindow'}
+    {key: 'vt', help: 'Toggle view text', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: view_option, visible:'class:NotesView-ScrollWindow'},
+    {key: 's', help: 'Settings', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-settings', visible: true},
+    {key: 'h', help: 'Help & Learning', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-help', visible: true},
+    {key: 'r', help: 'Rate Evernote Web', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-feedback', visible: true},
+    {key: 'l', help: 'Log out', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-logout', visible: true}
 ];
 
 
