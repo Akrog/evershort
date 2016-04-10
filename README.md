@@ -112,7 +112,7 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
-x.y.z (2016-04-xx)
+0.2.0 (2016-04-10)
 
 - Add note sorting shortcuts (oc, oC, ou, oU, ot, oT).
 - Add toggling note view options (vi, vt).
