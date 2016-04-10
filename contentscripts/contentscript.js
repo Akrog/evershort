@@ -3,7 +3,7 @@ DEBUG_MODE = false;
 window.addEventListener('load', function(){setTimeout(init_evershort, 2000);}, false);
 
 
-var key_groups = [ 'side_bar', 'note_operations', 'note_navigation', 'book_keys', 'misc', 'search', 'config' ];
+var key_groups = [ 'side_bar', 'note_operations', 'note_navigation', 'book_keys', 'misc', 'search', 'config', 'sharing' ];
 
 var keys = [
     {key: '/', help: 'Search', group: 'side_bar', on: 'keypress', context: '!help', fire: goto_search},  // Keycode 47
@@ -72,7 +72,13 @@ var keys = [
     {key: 's', help: 'Settings', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-settings', visible: true},
     {key: 'h', help: 'Help & Learning', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-help', visible: true},
     {key: 'r', help: 'Rate Evernote Web', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-feedback', visible: true},
-    {key: 'l', help: 'Log out', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-logout', visible: true}
+    {key: 'l', help: 'Log out', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-logout', visible: true},
+    {key: 'hs', help: 'Send note', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-MESSAGE', visible:'id:gwt-debug-NoteSharing-shareButton'},
+    {key: 'hf', help: 'Facebook', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-FACEBOOK', visible:'id:gwt-debug-NoteSharing-shareButton'},
+    {key: 'ht', help: 'Twitter', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-TWITTER', visible:'id:gwt-debug-NoteSharing-shareButton'},
+    {key: 'hi', help: 'LinkedIn', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-LINKEDIN', visible:'id:gwt-debug-NoteSharing-shareButton'},
+    {key: 'he', help: 'Email', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-EMAIL', visible:'id:gwt-debug-NoteSharing-shareButton'},
+    {key: 'hl', help: 'Link', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-LINK', visible:'id:gwt-debug-NoteSharing-shareButton'}
 ];
 
 
