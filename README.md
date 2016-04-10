@@ -41,10 +41,17 @@ Nodes list:
     j      next note
     k      previous note
     l      edit note
+    oc     Order by Creation date (newest first)
+    oC     Order by Creation date (oldest first)
+    ou     Order by Updated date (newest first)
+    oU     Order by Updated date (oldest first)
+    ot     Order by Title (ascending)
+    oT     Order by Title (descending)
+    vi     Toggle view text
+    vt     Toggle view images
 
 Note:
     c      change note Caption
-    e      Email note
     s      Star note
     i      note Info
     d      Delete note
@@ -52,6 +59,14 @@ Note:
     b      move note to noteBook
     t      Tag note
     F      Focus toggle
+
+Note Sharing:
+    hs     Send note
+    hf     Facebook
+    ht     Twitter
+    hi     LinkedIn
+    he     Email
+    hl     Link
 
 Notebook list:
     j      next notebook
@@ -76,6 +91,12 @@ Miscelaneous:
     a      create tag/chat
     f      enter search Field
     x      clear search field
+
+Configuration Menu:
+    s      Settings
+    h      Help & Learning
+    r      Rate Evernote Web
+    l      Log out
 
 Screen Captures with overlayed Shortcuts
 ----------------------------------------
