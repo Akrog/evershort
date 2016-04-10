@@ -94,6 +94,7 @@ Release Notes
 x.y.z (2016-04-xx)
 
 - Add note sorting shortcuts (oc, oC, ou, oU, ot, oT).
+- Add toggling note view options (vi, vt).
 - Fix ESC from help cancels note creation and doesn't hide help dialog.
 - Fix caption change on new note with no caption or contents.
 - Fix exit note contents with ESC doesn't always work.

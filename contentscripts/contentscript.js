@@ -66,7 +66,9 @@ var keys = [
     {key: 'ou', help: 'Sort by updated (newest first)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
     {key: 'oU', help: 'Sort by updated (oldest first)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
     {key: 'ot', help: 'Sort by title (ascending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
-    {key: 'oT', help: 'Sort by title (descending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'}
+    {key: 'oT', help: 'Sort by title (descending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
+    {key: 'vi', help: 'Toggle view images', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: view_option, visible:'class:NotesView-ScrollWindow'},
+    {key: 'vt', help: 'Toggle view text', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: view_option, visible:'class:NotesView-ScrollWindow'}
 ];
 
 
@@ -83,6 +85,15 @@ function sort_notes(chr, evnt, ctxt) {
     sort_options[option].click();
     return true;
 }
+
+
+function view_option(chr, evnt, ctxt) {
+    var view_options = document.getElementsByClassName('Toggle');
+    var idx = String.fromCharCode(chr[1]) === 'i'? 0:1;
+    view_options[idx].click();
+    return true;
+}
+
 
 function convert_key(key) {
     if (key == 13)
