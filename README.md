@@ -100,6 +100,7 @@ x.y.z (2016-04-xx)
 - Fix ESC from help cancels note creation and doesn't hide help dialog.
 - Fix caption change on new note with no caption or contents.
 - Fix exit note contents with ESC doesn't always work.
+- Remove conflicting "e" shortcut for sharing a note, use "hs" now.
 
 0.1.2 (2016-03-27)
 

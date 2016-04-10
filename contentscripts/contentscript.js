@@ -19,7 +19,6 @@ var keys = [
     {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: 'id:gwt-debug-MetaBarView-tagIcon'},  // Keycode 107
     {key: 'c', help: 'Change note title', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: 'id:gwt-debug-NotebookSelectMenu-root'},
     {key: 27, help: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
-    {key: 'e', help: 'Email note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingView-root', visible: true},
     {key: 's', help: 'Star note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton', visible: true},
     {key: 'i', help: 'Info on note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-infoButton', visible: true},
     {key: 'd', help: 'Delete note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-trashButton', visible: true},
