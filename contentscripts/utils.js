@@ -49,9 +49,9 @@ function mouseEvent(type, sx, sy, cx, cy) {
     cancelable: (type != "mousemove"),
     view: window,
     detail: 0,
-    screenX: sx, 
+    screenX: sx,
     screenY: sy,
-    clientX: cx, 
+    clientX: cx,
     clientY: cy,
     ctrlKey: false,
     altKey: false,
@@ -62,7 +62,7 @@ function mouseEvent(type, sx, sy, cx, cy) {
   };
   if (typeof( document.createEvent ) == "function") {
     evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent(type, 
+    evt.initMouseEvent(type,
       e.bubbles, e.cancelable, e.view, e.detail,
       e.screenX, e.screenY, e.clientX, e.clientY,
       e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,

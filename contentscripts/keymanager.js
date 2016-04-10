@@ -12,6 +12,7 @@ function FireKey(key, shiftkey) {
 
 var keymanager = {
     shortcuts: {},
+    pressed_keys: [],
 
     init: function(get_context) {
        manager = this.manager.bind(this)
@@ -21,8 +22,15 @@ var keymanager = {
     },
 
     add_shortcut: function (key, name, on, fire, context, on_input, to_front, visible) {
-        if (typeof(key) === "string")
-            key = key.charCodeAt(0);
+        if (typeof(key) === "string") {
+            var res = [];
+            for (var i=0; i<key.length; ++i)
+                res.push(key.charCodeAt(i));
+            key = res;
+        }
+
+        if (on === 'keypress' && key.constructor !== Array)
+            key = [key];
 
         if (!(key in this.shortcuts))
             this.shortcuts[key] = [];
@@ -95,11 +103,24 @@ var keymanager = {
         return element && (!visible || is_visible(element));
     },
 
+    clear_keys: function() {
+        this.pressed_keys = [];
+        this.key_timer = undefined;
+    },
+
     manager: function (event) {
         log('key manager');
         log(event);
+
         var char = event.key || event.which || event.KeyCode || event.charCode;
-        log('DePressed: ' + char);
+        if (event.type == 'keypress') {
+            if (this.key_timer !== undefined)
+                clearTimeout(this.key_timer);
+            this.pressed_keys.push(char);
+            char = this.pressed_keys
+        }
+
+        log('Pressed Keys: ' + char);
 
         var stop = false;
 
@@ -135,6 +156,7 @@ var keymanager = {
                     stop = handler.fire(char, event, handler.context);
                 }
                 if (stop) {
+                    this.clear_keys();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     event.preventDefault();
@@ -142,5 +164,8 @@ var keymanager = {
                 }
             }
         }
+
+        if (event.type == 'keypress')
+            setTimeout(this.clear_keys.bind(this), 1000);
     }
 }
