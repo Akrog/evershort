@@ -60,7 +60,13 @@ var keys = [
     {key: 'F', on: 'keypress', fire: 'id:gwt-debug-NoteAttributes-doneButton', visible: true},
     {key: 27, on: 'keydown', fire: 'id:gwt-debug-NoteAttributes-doneButton', visible: true},
     {key: '?', help: 'Show/Hide Help', group: 'misc', on: 'keypress', fire: toggle_help},
-    {key: 27, help: 'exit_help', on: 'keydown', context: 'help', to_front: true, fire: hide_help}
+    {key: 27, help: 'exit_help', on: 'keydown', context: 'help', to_front: true, fire: hide_help},
+    {key: 'oc', help: 'Sort by creation (newest first)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
+    {key: 'oC', help: 'Sort by creation (oldest first)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
+    {key: 'ou', help: 'Sort by updated (newest first)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
+    {key: 'oU', help: 'Sort by updated (oldest first)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
+    {key: 'ot', help: 'Sort by title (ascending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'},
+    {key: 'oT', help: 'Sort by title (descending)', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: sort_notes, visible:'class:NotesView-ScrollWindow'}
 ];
 
 
@@ -68,6 +74,15 @@ var observer = undefined;
 var is_help_showing = false;
 var help_html = undefined;
 
+
+var sort_options_idx = {'C': 0, 'c': 1, 'U': 2, 'u': 3, 't': 4, 'T': 5};
+
+function sort_notes(chr, evnt, ctxt) {
+    var sort_options = document.getElementsByClassName('SelectorOption');
+    var option = sort_options_idx[String.fromCharCode(chr[1])];
+    sort_options[option].click();
+    return true;
+}
 
 function convert_key(key) {
     if (key == 13)
