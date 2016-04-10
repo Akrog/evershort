@@ -156,8 +156,14 @@ function toggle_help(chr, evt, ctxt) {
 
 function tinymce_listener(evnt) {
     var char = evnt.key || evnt.which || evnt.KeyCode || evnt.charCode;
-    if (char === 27)
-        return exit_field(27, evnt);
+    if (char === 27) {
+        var elem = document.getElementById('gwt-debug-NoteAttributes-overflowButton');
+        elem.focus()
+        evnt.stopPropagation();
+        evnt.stopImmediatePropagation();
+        evnt.preventDefault();
+        return false;
+    }
 }
 
 
