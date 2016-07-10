@@ -115,6 +115,7 @@ Release Notes
 0.y.z (2016-07-xx)
 
 - Fix key recognition problem.
+- Fix unnecessary delay required between keystrokes.
 
 0.2.0 (2016-04-10)
 

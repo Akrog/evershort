@@ -161,8 +161,8 @@ var keymanager = {
                     log('Event Fire method ' + handler.fire.name);
                     stop = handler.fire(char, event, handler.context);
                 }
+                this.clear_keys();
                 if (stop) {
-                    this.clear_keys();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     event.preventDefault();
