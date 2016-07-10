@@ -112,6 +112,10 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.y.z (2016-07-xx)
+
+- Fix key recognition problem.
+
 0.2.0 (2016-04-10)
 
 - Add note sorting shortcuts (oc, oC, ou, oU, ot, oT).

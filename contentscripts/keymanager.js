@@ -112,7 +112,9 @@ var keymanager = {
         log('key manager');
         log(event);
 
-        var char = event.key || event.which || event.KeyCode || event.charCode;
+        var char = event.which || event.KeyCode || event.charCode || event.key;
+        if (typeof(char) === 'string')
+            char = char.charCodeAt();
         if (event.type == 'keypress') {
             if (this.key_timer !== undefined)
                 clearTimeout(this.key_timer);
