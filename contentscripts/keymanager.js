@@ -120,7 +120,11 @@ var keymanager = {
             char = this.pressed_keys
         }
 
-        log('Pressed Keys: ' + char);
+        if (event.type == 'keypress') {
+            log('Pressed Keys: ' + char);
+        } else if (event.type == 'keydown') {
+            log('Down Keys: ' + char);
+        }
 
         var stop = false;
 
