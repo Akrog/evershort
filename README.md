@@ -112,7 +112,7 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
-0.y.z (2016-07-xx)
+0.2.1 (2016-07-11)
 
 - Fix key recognition problem.
 - Fix unnecessary delay required between keystrokes.
