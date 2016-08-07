@@ -112,6 +112,10 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.2.2 (2016-08-xx)
+
+- Fix exit from editor using ESC key
+
 0.2.1 (2016-07-11)
 
 - Fix key recognition problem.

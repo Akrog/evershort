@@ -190,7 +190,7 @@ function toggle_help(chr, evt, ctxt) {
 
 
 function tinymce_listener(evnt) {
-    var char = evnt.key || evnt.which || evnt.KeyCode || evnt.charCode;
+    var char = evnt.which || evnt.KeyCode || evnt.charCode || evnt.key;
     if (char === 27) {
         var elem = document.getElementById('gwt-debug-NoteAttributes-overflowButton');
         elem.focus()
@@ -208,9 +208,9 @@ function tinymce_observer(mutations) {
         for (var i = 0; i < mutation.addedNodes.length; i++) {
             iframe = mutation.target && search_by_field(mutation.addedNodes[i],
                                                         'name',
-                                                        'RichTextArea-entinymce');
+                                                        'en-common-editor-iframe');
             if (iframe) {
-                log('Found RichTextArea');
+                log('Found editor frame');
                 var result = add_tinymce_listener(iframe);
                 if (result) {
                     log('Disconnecting observer');
@@ -225,7 +225,7 @@ function tinymce_observer(mutations) {
 
 function add_tinymce_listener(iframe) {
     var doc = iframe && iframe.contentDocument;
-    var tinymce = doc && doc.getElementById('tinymce');
+    var tinymce = doc && doc.getElementById('en-note');
     if (tinymce)
         tinymce.addEventListener('keydown', tinymce_listener, true);
     else
@@ -243,22 +243,25 @@ function init_evershort() {
 
     // Now we need to add the key listener for the tinymce because it's in
     // another document (iframe)
-    var iframe = document.getElementsByName('RichTextArea-entinymce');
-    if (iframe && iframe.length) {
-        log('Found RichTextArea on init');
-        // If we were able to add the key listener we are finished
-        if (add_tinymce_listener(iframe[0]))
-            return;
-    }
-
-    // If it's not there yet, add an observer that will add our listener later
     var editor = document.getElementById('gwt-debug-NoteContentEditorView-root');
     if (editor) {
+        var iframe = editor.getElementsByClassName('gwt-Frame');
+        iframe = iframe && iframe[0]
+        if (iframe) {
+            if (iframe.name === 'en-common-editor-iframe' ||  iframe.id === 'en-common-editor-iframe') {
+                log('Found editor frame on init');
+                // If we were able to add the key listener we are finished
+                if (add_tinymce_listener(iframe))
+                    return;
+            }
+        }
         log('Adding tinymce observer to NoteContentEditorView');
     } else {
         editor = document;
         log('Adding tinymce observer to document');
     }
+
+    // If it's not there yet, add an observer that will add our listener later
     observer = new MutationObserver(tinymce_observer);
     observer.observe(editor, { childList: true, subtree: true });
 }
@@ -323,7 +326,7 @@ function exit_tag_note(char, event) {
         field.value = '';
         // Hide the popup if it's vissible
         var popup = document.getElementsByClassName('suggestPopupTop');
-        var popup_group = search_up_by_style(popup && popup[0], 'visibility', 'visible'); 
+        var popup_group = search_up_by_style(popup && popup[0], 'visibility', 'visible');
         if (popup_group)
             popup_group.style.visibility = 'hidden';
         // Fired the ESC char
