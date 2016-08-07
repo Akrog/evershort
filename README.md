@@ -115,6 +115,7 @@ Release Notes
 0.2.2 (2016-08-xx)
 
 - Fix exit from editor using ESC key
+- Fix entering editor using l key
 
 0.2.1 (2016-07-11)
 

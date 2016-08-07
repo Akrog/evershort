@@ -16,7 +16,7 @@ var keys = [
     {key: 'C', help: 'Goto Config', group: 'side_bar', on: 'keypress', context: '!help', on_input: false, fire: 'id:gwt-debug-AccountMenu-avatar'},  // Keycode 101
     {key: 'j', help: 'Next note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_down_key, visible:'class:NotesView-ScrollWindow'},  // Keycode 106
     {key: 'k', help: 'Previous note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: note_up_key, visible:'class:NotesView-ScrollWindow'},  // Keycode 107
-    {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteContentEditorView-root', visible: 'id:gwt-debug-MetaBarView-tagIcon'},  // Keycode 107
+    {key: 'l', help: 'Edit note', group: 'note_navigation', on: 'keypress', context: ['notes', 'search'], fire: edit_note, visible: 'id:gwt-debug-MetaBarView-tagIcon'},  // Keycode 107
     {key: 'c', help: 'Change note title', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteTitleView-textBox', visible: 'id:gwt-debug-NotebookSelectMenu-root'},
     {key: 27, help: 'exit_note', on: 'keydown', on_input: true, context: 'editor', fire: 'id:gwt-debug-sidebar'},  // Keycode 107
     {key: 's', help: 'Star note', group: 'note_operations', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteAttributes-shortcutButton', visible: true},
@@ -84,6 +84,7 @@ var keys = [
 var observer = undefined;
 var is_help_showing = false;
 var help_html = undefined;
+var editor = undefined;
 
 
 var sort_options_idx = {'C': 0, 'c': 1, 'U': 2, 'u': 3, 't': 4, 'T': 5};
@@ -226,9 +227,10 @@ function tinymce_observer(mutations) {
 function add_tinymce_listener(iframe) {
     var doc = iframe && iframe.contentDocument;
     var tinymce = doc && doc.getElementById('en-note');
-    if (tinymce)
+    if (tinymce) {
         tinymce.addEventListener('keydown', tinymce_listener, true);
-    else
+        editor = tinymce
+    } else
         log('Tinymce editor not found in iframe');
     return tinymce;
 }
@@ -264,6 +266,12 @@ function init_evershort() {
     // If it's not there yet, add an observer that will add our listener later
     observer = new MutationObserver(tinymce_observer);
     observer.observe(editor, { childList: true, subtree: true });
+}
+
+
+function edit_note(char, event, ctxt) {
+    if (editor)
+        editor.focus()
 }
 
 
