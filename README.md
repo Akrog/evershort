@@ -112,7 +112,7 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
-0.2.2 (2016-08-xx)
+0.2.2 (2016-08-07)
 
 - Fix exit from editor using ESC key
 - Fix entering editor using l key
