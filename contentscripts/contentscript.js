@@ -31,7 +31,7 @@ var keys = [
      context: ['search>id:gwt-debug-searchViewSearchBox', 'workchat>id:gwt-debug-WorkChatDrawer-drawerFilter-textBox',
                'tags>class:focus-drawer-Filter-input', 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox',
                'notes>id:gwt-debug-NoteTitleView-textBox', 'search>id:gwt-debug-NoteTitleView-textBox'],
-     fire: new FireKey(9, true)},
+     fire: reset_focus},
     {key: 27, help: 'Cancel/Exit field', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, help: 'Confirm', group: 'misc', on: 'keydown', on_input: true, context: 'modal_dialog', fire: modal_dialog_keys},
     {key: 13, help: 'exec_search', on: 'keydown', on_input: true, context: 'notebooks>id:gwt-debug-NotebooksDrawer-drawerFilter-textBox', fire: exec_search_notebook},
@@ -338,7 +338,7 @@ function exit_tag_note(char, event) {
         if (popup_group)
             popup_group.style.visibility = 'hidden';
         // Fired the ESC char
-        exit_field(char, event);
+        reset_focus()
         return true;
     }
 }
@@ -352,13 +352,6 @@ function save_search(char, event) {
         if (elem)
             elem.click();
     }
-}
-
-
-function exit_field(char, event) {
-    var evt = generate_keyevent('keydown', 9);
-    event.target.dispatchEvent(evt);
-    return true;
 }
 
 
@@ -482,9 +475,7 @@ function exec_search_notebook() {
             result.selected.click();
         } else {
             // Exit the search field
-            setTimeout(function() {
-                    exit_field(27, {target: result.selected});
-            }, 150);
+            reset_focus()
         }
     }
     // We don't want any more key events to be processed
@@ -588,4 +579,17 @@ function get_context(target) {
     }
 
     return undefined;
+}
+
+
+function reset_focus() {
+    let scrollTop = document.body.scrollTop;
+    let body = document.body;
+
+    let tmp = document.createElement('input');
+    tmp.style.opacity = 0;
+    body.appendChild(tmp);
+    tmp.focus();
+    body.removeChild(tmp);
+    body.scrollTop = scrollTop;
 }
