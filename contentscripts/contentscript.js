@@ -72,14 +72,23 @@ var keys = [
     {key: 'h', help: 'Help & Learning', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-help', visible: true},
     {key: 'r', help: 'Rate Evernote Web', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-feedback', visible: true},
     {key: 'l', help: 'Log out', group: 'config', on: 'keypress', context: '!help', to_front: true, on_input: false, fire: 'id:gwt-debug-AccountMenu-logout', visible: true},
-    {key: 'hs', help: 'Send note', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-MESSAGE', visible:'id:gwt-debug-NoteSharing-shareButton'},
-    {key: 'hf', help: 'Facebook', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-FACEBOOK', visible:'id:gwt-debug-NoteSharing-shareButton'},
-    {key: 'ht', help: 'Twitter', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-TWITTER', visible:'id:gwt-debug-NoteSharing-shareButton'},
-    {key: 'hi', help: 'LinkedIn', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-LINKEDIN', visible:'id:gwt-debug-NoteSharing-shareButton'},
-    {key: 'he', help: 'Email', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-EMAIL', visible:'id:gwt-debug-NoteSharing-shareButton'},
-    {key: 'hl', help: 'Link', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-LINK', visible:'id:gwt-debug-NoteSharing-shareButton'}
+    {key: 'hs', help: 'Send note', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-MESSAGE', visible:'id:gwt-debug-NoteSharing-shareButton', pre_path_parse: trigger_share_elements_creation},
+    {key: 'hf', help: 'Facebook', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-FACEBOOK', visible:'id:gwt-debug-NoteSharing-shareButton', pre_path_parse: trigger_share_elements_creation},
+    {key: 'ht', help: 'Twitter', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-TWITTER', visible:'id:gwt-debug-NoteSharing-shareButton', pre_path_parse: trigger_share_elements_creation},
+    {key: 'hi', help: 'LinkedIn', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-LINKEDIN', visible:'id:gwt-debug-NoteSharing-shareButton', pre_path_parse: trigger_share_elements_creation},
+    {key: 'he', help: 'Email', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-EMAIL', visible:'id:gwt-debug-NoteSharing-shareButton', pre_path_parse: trigger_share_elements_creation},
+    {key: 'hl', help: 'Link', group: 'sharing', on: 'keypress', context: ['notes', 'search'], fire: 'id:gwt-debug-NoteSharingMenu-root-LINK', visible:'id:gwt-debug-NoteSharing-shareButton', pre_path_parse: trigger_share_elements_creation}
 ];
 
+var share_elems_created = false;
+
+function trigger_share_elements_creation(chr, evnt, ctxt) {
+    if (!share_elems_created) {
+        share_elems_created = true;
+        document.getElementById('gwt-debug-NoteSharing-dropdown').click();
+        document.getElementById('gwt-debug-NoteSharing-dropdown').click();
+    }
+}
 
 var observer = undefined;
 var is_help_showing = false;
@@ -240,7 +249,7 @@ function init_evershort() {
     keymanager.init(get_context);
     for (var i=0; i<keys.length; ++i) {
         var value = keys[i];
-        keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front, value.visible);
+        keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front, value.visible, value.pre_path_parse);
     }
 
     // Now we need to add the key listener for the tinymce because it's in
