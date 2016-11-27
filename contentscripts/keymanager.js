@@ -21,7 +21,8 @@ var keymanager = {
        this.get_context = get_context;
     },
 
-    add_shortcut: function (key, name, on, fire, context, on_input, to_front, visible) {
+    add_shortcut: function (key, name, on, fire, context, on_input, to_front,
+                            visible, pre_path_parse) {
         if (typeof(key) === "string") {
             var res = [];
             for (var i=0; i<key.length; ++i)
@@ -43,6 +44,7 @@ var keymanager = {
             context: context,
             on_input: on_input,
             visible: visible || false,
+            pre_path_parse: pre_path_parse,
         };
 
         if (to_front)
@@ -147,6 +149,8 @@ var keymanager = {
                     this.is_in_context(handler.context, event.target) &&
                     this.check_string_visibility(handler.visible)) {
                 if (typeof(handler.fire) === 'string') {
+                    if (handler.pre_path_parse !== undefined)
+                        handler.pre_path_parse();
                     var element = parse_path(handler.fire)[0];
                     if (this.check_elem_visibility(handler.visible, element)) {
                         log('Click event for ' + handler.fire);
