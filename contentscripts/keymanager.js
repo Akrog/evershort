@@ -103,9 +103,16 @@ var keymanager = {
         return element && (!visible || is_visible(element));
     },
 
+    reset_keys_timer: function() {
+        if (this.key_timer !== undefined) {
+            clearTimeout(this.key_timer);
+            this.key_timer = undefined;
+        }
+    },
+
     clear_keys: function() {
         this.pressed_keys = [];
-        this.key_timer = undefined;
+        this.reset_keys_timer();
     },
 
     manager: function (event) {
@@ -116,8 +123,7 @@ var keymanager = {
         if (typeof(char) === 'string')
             char = char.charCodeAt();
         if (event.type == 'keypress') {
-            if (this.key_timer !== undefined)
-                clearTimeout(this.key_timer);
+            this.reset_keys_timer()
             this.pressed_keys.push(char);
             char = this.pressed_keys
         }
@@ -161,8 +167,8 @@ var keymanager = {
                     log('Event Fire method ' + handler.fire.name);
                     stop = handler.fire(char, event, handler.context);
                 }
-                this.clear_keys();
                 if (stop) {
+                    this.clear_keys();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
                     event.preventDefault();
@@ -172,6 +178,6 @@ var keymanager = {
         }
 
         if (event.type == 'keypress')
-            setTimeout(this.clear_keys.bind(this), 1000);
+            this.key_timer = setTimeout(this.clear_keys.bind(this), 500);
     }
 }
