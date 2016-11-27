@@ -6,7 +6,7 @@ Increase your productivity on EverNote using shortcuts to search, navigate, shar
 
 __Installation instructions:__
 
-You can install the stable version of Vimium from the
+You can install the stable version of EverShort from the
 [Chrome Extensions Gallery](https://chrome.google.com/extensions/detail/clhjalfedcigiomjfmmjhgadnlmegobb).
 
 __Warning:__
