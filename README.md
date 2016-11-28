@@ -112,6 +112,12 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.2.3 (2016-11-28)
+
+- Add url based icon action
+- Fix all sharing shortcuts
+- Fix textedit fields exit with ESC
+
 0.2.2 (2016-08-07)
 
 - Fix exit from editor using ESC key
