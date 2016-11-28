@@ -7,7 +7,19 @@
     "description": "EverShort provides keyboard shortcuts to EverNote.",
     "author": "Gorka Eguileor",
 
-    "permissions": [ "https://*.evernote.com/Home.action*", "https://evernote.com/Home.action*" ],
+    "permissions": [
+            "https://*.evernote.com/Home.action*",
+            "https://evernote.com/Home.action*",
+            "activeTab"
+    ],
+
+    "browser_action": {
+            "default_icon": "images/icon128.png"
+    },
+
+    "background": {
+        "scripts": ["contentscripts/background.js"]
+    },
 
     "content_scripts": [
         {
