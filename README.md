@@ -112,6 +112,10 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.2.4 (2017-02-11)
+
+- Add support for Chinese site (issue #2)
+
 0.2.3 (2016-11-28)
 
 - Add url based icon action
