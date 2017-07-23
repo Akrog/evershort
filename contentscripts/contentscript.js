@@ -202,8 +202,11 @@ function toggle_help(chr, evt, ctxt) {
 function tinymce_listener(evnt) {
     var char = evnt.which || evnt.KeyCode || evnt.charCode || evnt.key;
     if (char === 27) {
+        // Exit from the iframe
         var elem = document.getElementById('gwt-debug-NoteAttributes-overflowButton');
         elem.focus()
+        // Hide the toolbar
+        document.getElementById('gwt-debug-NoteContentView-root').click()
         evnt.stopPropagation();
         evnt.stopImmediatePropagation();
         evnt.preventDefault();
@@ -279,8 +282,12 @@ function init_evershort() {
 
 
 function edit_note(char, event, ctxt) {
-    if (editor)
+    if (editor) {
+        // Make the toolbar appear
+        document.getElementById('gwt-debug-NoteContentEditorView-root').click()
+        // Select the editor inside the iframe
         editor.focus()
+    }
 }
 
 
