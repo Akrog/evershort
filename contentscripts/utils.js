@@ -138,3 +138,17 @@ function read_file(filename) {
   req.send();
   return req.responseText;
 };
+
+
+function click_and_click_when_visible(click_elem_id, elem_id) {
+    document.getElementById(click_elem_id).click();
+    if (elem_id) {
+        interval = setInterval(function() {
+            elem = document.getElementById(elem_id);
+            if (is_visible(elem)) {
+                   elem.click()
+                   clearInterval(interval);
+            }
+        }, 100);
+    }
+}

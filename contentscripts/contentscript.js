@@ -119,9 +119,15 @@ function convert_key(key) {
         return '&#x23CE';
     if (key == 27)
         return 'Esc';
+    if (key == 9)
+        return '&#x21C4';
     return key;
 }
 
+
+function get_help_element(key, description) {
+    return '<tr class="evershortReset undefined"><td class="evershortReset">' + convert_key(key) + '</td><td class="evershortReset">:</td><td class="evershortReset">' + description + '</td></tr>';
+}
 
 function get_key_group_html(group) {
     elements = []
@@ -132,11 +138,31 @@ function get_key_group_html(group) {
             key_group = [key_group];
 
         if (key_group.indexOf(group) > -1) {
-            elements.push('<tr class="evershortReset undefined"><td class="evershortReset">' + convert_key(shortcut.key) + '</td><td class="evershortReset">:</td><td class="evershortReset">' + shortcut.help + '</td></tr>');
+            elements.push(get_help_element(shortcut.key, shortcut.help));
         }
     }
     return elements.join('');
 }
+
+
+function get_tinymce_help() {
+    elements = [
+        get_help_element(27, 'Exit note editor'),
+        get_help_element('Ctrl+z', 'Undo'),
+        get_help_element('Ctrl+Shift+z', 'Redo'),
+        get_help_element(9, 'Indent'),
+        get_help_element('Shift+' + convert_key(9), 'Unindent'),
+        get_help_element('Ctrl+b', 'Bold'),
+        get_help_element('Ctrl+i', 'Italic'),
+        get_help_element('Ctrl+u', 'Underline')
+    ];
+    Object.keys(tinymce_actions).forEach(function(key) {
+        shortcut = tinymce_actions[key];
+        elements.push(get_help_element('Ctrl+Alt+' + key, tinymce_actions[key][0]));
+    });
+    return elements.join('');
+}
+
 
 function get_help_html() {
     // We only load the html for the help once upon help request
@@ -146,6 +172,7 @@ function get_help_html() {
             group = key_groups[i];
             help_html = help_html.replace('{{' + group + '}}', get_key_group_html(group));
         }
+        help_html = help_html.replace('{{tiny_mce}}', get_tinymce_help());
         help_html = help_html.replace('{{version}}', chrome.runtime.getManifest().version);
     }
     return help_html
@@ -201,17 +228,58 @@ function toggle_help(chr, evt, ctxt) {
 
 function tinymce_listener(evnt) {
     var char = evnt.which || evnt.KeyCode || evnt.charCode || evnt.key;
-    if (char === 27) {
-        // Exit from the iframe
-        var elem = document.getElementById('gwt-debug-NoteAttributes-overflowButton');
-        elem.focus()
-        // Hide the toolbar
-        document.getElementById('gwt-debug-NoteContentView-root').click()
+    if ((char === 27) || (char === 9)) {
+        if (char === 27) {
+            // Exit from the iframe
+            var elem = document.getElementById('gwt-debug-NoteAttributes-overflowButton');
+            elem.focus()
+            // Hide the toolbar
+            document.getElementById('gwt-debug-NoteContentView-root').click()
+        } else {
+            if (evnt.shiftKey)
+                document.getElementById('gwt-debug-FormattingBar-outdentButton').click();
+            else
+                document.getElementById('gwt-debug-FormattingBar-indentButton').click();
+        }
         evnt.stopPropagation();
         evnt.stopImmediatePropagation();
         evnt.preventDefault();
         return false;
     }
+}
+
+
+// Dictionary for tinyMCE shortcuts (Ctrl+Alt+X) and a 3 element array with help text and elements to click consecutively.  Will wait until second id is present.
+var tinymce_actions = {
+    'a': ['Attach file', 'gwt-debug-FormattingBar-attachmentButton', null],
+    'b': ['Bulleted list', 'gwt-debug-FormattingBar-bulletButton', null],
+    'c': ['Checkbox', 'gwt-debug-FormattingBar-checkboxButton', null],
+    'd': ['Divider line', 'gwt-debug-FormattingBar-horizontalRuleButton', null],
+    'e': ['Align center', 'gwt-debug-EditorAlignDropdown-center', null],
+    'k': ['Insert link', 'gwt-debug-FormattingBar-linkButton', 'gwt-debug-EditorLinkDropdown-linkText'],
+    'l': ['Align left', 'gwt-debug-EditorAlignDropdown-left', null],
+    'n': ['Numbered list', 'gwt-debug-FormattingBar-listButton', null],
+    'p': ['Code block', 'gwt-debug-FormattingBar-codeBlockButton', null],
+    'r': ['Align right', 'gwt-debug-EditorAlignDropdown-right', null],
+    's': ['Strikethrough', 'gwt-debug-FormattingBar-strikeButton', null],
+    'x': ['Remove formatting', 'gwt-debug-FormattingBar-noFormatButton', null],
+}
+
+
+function tinymce_shortcuts(evnt) {
+    if (evnt.shift || evnt.metaKey || !(evnt.ctrlKey && evnt.altKey))
+        return true;
+
+    action = tinymce_actions[evnt.key];
+
+    if (!action)
+        return true;
+
+    click_and_click_when_visible(action[1], action[2]);
+    evnt.stopPropagation();
+    evnt.stopImmediatePropagation();
+    evnt.preventDefault();
+    return false;
 }
 
 
@@ -242,6 +310,7 @@ function add_tinymce_listener(iframe) {
     var tinymce = doc && doc.getElementById('en-note');
     if (tinymce) {
         tinymce.addEventListener('keydown', tinymce_listener, true);
+        tinymce.addEventListener('keyup', tinymce_shortcuts, true);
         editor = tinymce
     } else
         log('Tinymce editor not found in iframe');
