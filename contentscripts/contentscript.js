@@ -224,6 +224,7 @@ function tinymce_observer(mutations) {
                                                         'en-common-editor-iframe');
             if (iframe) {
                 log('Found editor frame');
+                update_tooltips();
                 var result = add_tinymce_listener(iframe);
                 if (result) {
                     log('Disconnecting observer');
@@ -248,6 +249,33 @@ function add_tinymce_listener(iframe) {
 }
 
 
+function set_toolbartip(key, id) {
+    nc = document.getElementById(id)
+    if (!nc || !nc.lastElementChild || !nc.lastElementChild.lastElementChild ||
+        nc.lastElementChild.lastElementChild.nodeName != 'SPAN') {
+
+        log("Don't know how to modify tooltip for " + id);
+        return;
+    }
+    // we use the EM QUAD unicode space
+    nc.lastElementChild.lastElementChild.textContent += ' (' + key + ')'
+}
+
+
+function update_tooltips() {
+    for (var i=1; i<7; ++i) {
+        key = keys[i];
+        if (typeof(key.fire) === "string" && key.fire.startsWith('id:')) {
+            log('Adding tooltip for key ' + key.key + ' on id ' + key.fire);
+            set_toolbartip(key.key, key.fire.substring(3));
+        }
+    }
+    // Help doesn't use an id for "fire" it has a custom method
+    set_toolbartip('/', 'gwt-debug-Sidebar-searchButton-container');
+    tooltips_added = true;
+}
+
+
 function init_evershort() {
     keymanager.init(get_context);
     for (var i=0; i<keys.length; ++i) {
@@ -266,6 +294,7 @@ function init_evershort() {
                 log('Found editor frame on init');
                 // If we were able to add the key listener we are finished
                 if (add_tinymce_listener(iframe))
+                    update_tooltips();
                     return;
             }
         }
