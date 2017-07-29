@@ -216,7 +216,7 @@ function tinymce_listener(evnt) {
 
 
 function tinymce_observer(mutations) {
-    mutations.forEach(function(mutation) {
+    mutations.some(function(mutation) {
         log('Tinymcs observing ' + mutation.addedNodes.length + ' new nodes');
         for (var i = 0; i < mutation.addedNodes.length; i++) {
             iframe = mutation.target && search_by_field(mutation.addedNodes[i],
@@ -228,7 +228,7 @@ function tinymce_observer(mutations) {
                 if (result) {
                     log('Disconnecting observer');
                     observer.disconnect();
-                    return;
+                    return true;
                 }
             }
         }
