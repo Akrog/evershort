@@ -90,7 +90,6 @@ function trigger_share_elements_creation(chr, evnt, ctxt) {
     }
 }
 
-var observer = undefined;
 var is_help_showing = false;
 var help_html = undefined;
 var editor = undefined;
@@ -284,7 +283,7 @@ function tinymce_shortcuts(evnt) {
 }
 
 
-function tinymce_observer(mutations) {
+function tinymce_observer(mutations, observer) {
     mutations.some(function(mutation) {
         log('Tinymcs observing ' + mutation.addedNodes.length + ' new nodes');
         for (var i = 0; i < mutation.addedNodes.length; i++) {
