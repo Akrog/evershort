@@ -329,7 +329,7 @@ function set_toolbartip(key, id) {
         return;
     }
     // we use the EM QUAD unicode space
-    nc.lastElementChild.lastElementChild.textContent += ' (' + key + ')'
+    nc.lastElementChild.lastElementChild.textContent += ' (' + key + ')';
 }
 
 
