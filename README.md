@@ -23,6 +23,7 @@ Keyboard Shortcuts
 Although there's still a lot of work to do, most common functionality is supported, like sidebar menu, dialog forms buttons, etc.
 
 General options:
+
     ?      show the help dialog
     A      Add a note
     /      search notes
@@ -34,10 +35,12 @@ General options:
     C      goto Contiguration
 
 Dialogs:
+
     Enter  accept
     Esc    cancel
 
 Nodes list:
+
     j      next note
     k      previous note
     l      edit note
@@ -51,6 +54,7 @@ Nodes list:
     vt     Toggle view images
 
 Note:
+
     c      change note Caption
     s      Star note
     i      note Info
@@ -61,6 +65,7 @@ Note:
     F      Focus toggle
 
 Note Sharing:
+
     hs     Send note
     hf     Facebook
     ht     Twitter
@@ -69,6 +74,7 @@ Note Sharing:
     hl     Link
 
 Notebook list:
+
     j      next notebook
     k      previous notebook
     Enter  select notebook
@@ -81,22 +87,51 @@ Notebook list:
     x      Clear search notebook
 
 Search window:
+
     w      change Where to search
     a      Add search to saved
     f      enter search Field
     x      Clear search field
 
 Miscelaneous:
+
     Esc    exit field
     a      create tag/chat
     f      enter search Field
     x      clear search field
 
 Configuration Menu:
+
     s      Settings
     h      Help & Learning
     r      Rate Evernote Web
     l      Log out
+
+Note editing:
+
+    Esc             Exit note editor
+    Ctrl+z          Undo
+    Ctrl+Shift+z    Redo
+    ⇄               Indent
+    Shift+⇄         Unindent
+    Ctrl+b          Bold
+    Ctrl+i          Italic
+    Ctrl+u          Underline
+    Ctrl+Alt+a      Attach file
+    Ctrl+Alt+b      Bulleted list
+    Ctrl+Alt+c      Checkbox
+    Ctrl+Alt+d      Divider line
+    Ctrl+Alt+e      Align center
+    Ctrl+Alt+k      Insert link
+    Ctrl+Alt+l      Align left
+    Ctrl+Alt+n      Numbered list
+    Ctrl+Alt+p      Code block
+    Ctrl+Alt+r      Align right
+    Ctrl+Alt+s      Strikethrough
+    Ctrl+Alt+x      Remove formatting
+    Ctrl+Alt+=      Subscript
+    Ctrl+Alt++      Superscript
+
 
 Screen Captures with overlayed Shortcuts
 ----------------------------------------
@@ -111,6 +146,12 @@ Some captures with overlayed keyboard shortcuts:
 
 Release Notes
 -------------
+
+0.3.0 (2017-07-30)
+
+- Add shortcuts for editor
+- Show shortcuts in tooltips
+- Fix editor's toolbar visibility
 
 0.2.4 (2017-02-11)
 
