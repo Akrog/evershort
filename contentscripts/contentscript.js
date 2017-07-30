@@ -94,6 +94,7 @@ var observer = undefined;
 var is_help_showing = false;
 var help_html = undefined;
 var editor = undefined;
+var tooltip_class = undefined;
 
 
 var sort_options_idx = {'C': 0, 'c': 1, 'U': 2, 'u': 3, 't': 4, 'T': 5};
@@ -345,12 +346,72 @@ function update_tooltips() {
 }
 
 
+tooltip_indicator = {
+    'Note info': 'i',
+    'Set reminder': 'r',
+    'Add shortcut': 's',
+    'Delete note': 'd',
+    'Expand': 'F',
+    'Share menu': 'hs, hf, ht, hi, he, hl',
+    'Move note': 'b',
+    'Tags': 't',
+    'Bold': 'Ctrl+b',
+    'Italic': 'Ctrl+i',
+    'Underline': 'Ctrl+u',
+    'Strikethrough': 'Ctrl+Alt+s',
+    'Code block': 'Ctrl+Alt+p',
+    'Checkbox': 'Ctrl+Alt+c',
+    'Bulleted list': 'Ctrl+Alt+b',
+    'Numbered list': 'Ctrl+Alt+n',
+    'Insert link': 'Ctrl+Alt+k',
+    'Attach file': 'Ctrl+Alt+a',
+    'Divider line': 'Ctrl+Alt+d',
+    'Alignment': 'Ctrl+Alt+l, Ctrl+Alt+e, Ctrl+Alt+r',
+    'Indent': 'Tab',
+    'Unindent': 'Shift+Tab',
+    'Remove formatting': 'Ctrl+Alt+x',
+    'Create a notebook': 'a',
+    'Create a tag': 'a',
+    'Start a chat': 'a'
+}
+
+
+
+function tooltip_observer(mutations, observer) {
+    for (i=0; i<mutations.length; ++i) {
+        mutation = mutations[i];
+        for (j=0; j<mutation.addedNodes.length; ++j) {
+            node = mutation.addedNodes[j];
+            if (node.nodeName == 'DIV' && node.lastElementChild && node.lastElementChild.className == tooltip_class) {
+                shortcut = tooltip_indicator[node.lastElementChild.textContent];
+                if (shortcut) {
+                    // we use the EM QUAD unicode space
+                    node.lastElementChild.textContent += ' (' + shortcut + ')';
+                }
+            }
+        }
+    }
+}
+
+
+function init_tooltip_observer() {
+    // Determine what's the class of the tooltip message
+    e = document.getElementById('gwt-debug-NotebookSelectMenu-notebookName')
+    tooltip_class = e.classList[0]
+
+    tooltip_obs = new MutationObserver(tooltip_observer);
+    tooltip_obs.observe(document.body, { childList: true, subtree: false });
+}
+
+
 function init_evershort() {
     keymanager.init(get_context);
     for (var i=0; i<keys.length; ++i) {
         var value = keys[i];
         keymanager.add_shortcut(value.key, value.name, value.on, value.fire, value.context, value.on_input, value.to_front, value.visible, value.pre_path_parse);
     }
+
+    init_tooltip_observer();
 
     // Now we need to add the key listener for the tinymce because it's in
     // another document (iframe)
