@@ -263,6 +263,8 @@ var tinymce_actions = {
     'r': ['Align right', 'gwt-debug-EditorAlignDropdown-right', null],
     's': ['Strikethrough', 'gwt-debug-FormattingBar-strikeButton', null],
     'x': ['Remove formatting', 'gwt-debug-FormattingBar-noFormatButton', null],
+    '=': ['Subscript', 'gwt-debug-FormattingBar-subscriptButton', null],
+    '+': ['Superscript', 'gwt-debug-FormattingBar-superscriptButton', null],
 }
 
 
@@ -365,6 +367,8 @@ tooltip_indicator = {
     'Insert link': 'Ctrl+Alt+k',
     'Attach file': 'Ctrl+Alt+a',
     'Divider line': 'Ctrl+Alt+d',
+    'Subscript': 'Ctrl+Alt+=',
+    'Superscript': 'Ctrl+Alt++',
     'Alignment': 'Ctrl+Alt+l, Ctrl+Alt+e, Ctrl+Alt+r',
     'Indent': 'Tab',
     'Unindent': 'Shift+Tab',
