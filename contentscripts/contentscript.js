@@ -291,7 +291,7 @@ function tinymce_observer(mutations, observer) {
         for (var i = 0; i < mutation.addedNodes.length; i++) {
             iframe = mutation.target && search_by_field(mutation.addedNodes[i],
                                                         'name',
-                                                        'en-common-editor-iframe');
+                                                        'RichTextArea-entinymce');
             if (iframe) {
                 log('Found editor frame');
                 update_tooltips();
@@ -309,7 +309,7 @@ function tinymce_observer(mutations, observer) {
 
 function add_tinymce_listener(iframe) {
     var doc = iframe && iframe.contentDocument;
-    var tinymce = doc && doc.getElementById('en-note');
+    var tinymce = doc && doc.getElementById('tinymce');
     if (tinymce) {
         tinymce.addEventListener('keydown', tinymce_listener, true);
         tinymce.addEventListener('keyup', tinymce_shortcuts, true);
@@ -420,16 +420,14 @@ function init_evershort() {
     // another document (iframe)
     var editor = document.getElementById('gwt-debug-NoteContentEditorView-root');
     if (editor) {
-        var iframe = editor.getElementsByClassName('gwt-Frame');
+        var iframe = editor.getElementsByClassName('RichTextArea-entinymce');
         iframe = iframe && iframe[0]
         if (iframe) {
-            if (iframe.name === 'en-common-editor-iframe' ||  iframe.id === 'en-common-editor-iframe') {
-                log('Found editor frame on init');
-                // If we were able to add the key listener we are finished
-                if (add_tinymce_listener(iframe))
-                    update_tooltips();
-                    return;
-            }
+            log('Found editor frame on init');
+            // If we were able to add the key listener we are finished
+            if (add_tinymce_listener(iframe))
+                update_tooltips();
+            return;
         }
         log('Adding tinymce observer to NoteContentEditorView');
     } else {
