@@ -566,11 +566,13 @@ function select_notebook_search_element(offset) {
 
 function notebook_down_key(char, event) {
     select_notebook_search_element(1);
+    return true;
 }
 
 
 function notebook_up_key(char, event) {
     select_notebook_search_element(-1);
+    return true;
 }
 
 
