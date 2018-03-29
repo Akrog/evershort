@@ -10,7 +10,11 @@
     "permissions": [
             "https://*.evernote.com/Home.action*",
             "https://evernote.com/Home.action*",
+            "https://*.evernote.com/u/*/Home.action*",
+            "https://evernote.com/u/*/Home.action*",
             "https://*.yinxiang.com/Home.action*",
+            "https://yinxiang.com/u/*/Home.action*",
+            "https://*.yinxiang.com/u/*/Home.action*",
             "https://yinxiang.com/Home.action*",
             "activeTab"
     ],
@@ -26,7 +30,14 @@
     "content_scripts": [
         {
             "css": [ "pages/styles.css" ],
-            "matches": [ "https://*.evernote.com/Home.action*", "https://evernote.com/Home.action*", "https://*.yinxiang.com/Home.action*", "https://yinxiang.com/Home.action*" ],
+            "matches": [ "https://*.evernote.com/Home.action*",
+                         "https://evernote.com/Home.action*",
+                         "https://*.evernote.com/u/*/Home.action*",
+                         "https://evernote.com/u/*/Home.action*",
+                         "https://*.yinxiang.com/Home.action*",
+                         "https://yinxiang.com/Home.action*",
+                         "https://*.yinxiang.com/u/*/Home.action*",
+                         "https://yinxiang.com/u/*/Home.action*" ],
             "js": [ "contentscripts/utils.js", "contentscripts/keymanager.js", "contentscripts/contentscript.js" ],
             "run_at": "document_end"
         }
