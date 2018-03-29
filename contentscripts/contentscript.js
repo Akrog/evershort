@@ -536,7 +536,7 @@ function get_selected_notebook_search_element() {
     var t = document.getElementsByClassName("qa-notebookWidget");
 
     for(var index = 0; index<t.length; ++index) {
-        if (window.getComputedStyle(t[index])['background-color'] === 'rgba(43, 181, 92, 0.901961)') {
+        if (window.getComputedStyle(t[index])['background-color'].startsWith('rgba(43, 181, 92')) {
             return {selected: t[index], all: t, index: index};
         }
     }
