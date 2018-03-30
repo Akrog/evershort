@@ -147,6 +147,13 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.3.1 (2018-03-30)
+
+- Support URLs in the form evershort.com/u/#
+- Fix tinymce shortcuts
+- Fix notebook up/down movement
+- Fix quick notebook up/down movement
+
 0.3.0 (2017-07-30)
 
 - Add shortcuts for editor
