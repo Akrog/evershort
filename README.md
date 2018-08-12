@@ -147,7 +147,7 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
-0.3.2
+0.3.2 (2018-08-12)
 
 - Fix #7: Tab inserts 4 spaces
 - Fix help message on click with user URLs
