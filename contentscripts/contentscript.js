@@ -311,8 +311,8 @@ function add_tinymce_listener(iframe) {
     var doc = iframe && iframe.contentDocument;
     var tinymce = doc && doc.getElementById('tinymce');
     if (tinymce) {
-        tinymce.addEventListener('keydown', tinymce_listener, true);
-        tinymce.addEventListener('keyup', tinymce_shortcuts, true);
+        doc.addEventListener('keydown', tinymce_listener, true);
+        doc.addEventListener('keyup', tinymce_shortcuts, true);
         editor = tinymce
     } else
         log('Tinymce editor not found in iframe');

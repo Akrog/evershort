@@ -147,6 +147,10 @@ Some captures with overlayed keyboard shortcuts:
 Release Notes
 -------------
 
+0.3.2
+
+- Fix #7: Tab inserts 4 spaces
+
 0.3.1 (2018-03-30)
 
 - Support URLs in the form evershort.com/u/#
