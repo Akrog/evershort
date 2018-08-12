@@ -1,4 +1,4 @@
-EVERNOTE_REGEX = new RegExp("https:\/\/(.+\.)?(evernote|yinxiang)\.com\/Home\.action.*")
+EVERNOTE_REGEX = new RegExp("https:\/\/(.+\.)?(evernote|yinxiang)\.com\/(u/.*?\/)?Home\.action.*")
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     if (EVERNOTE_REGEX.test(tab.url))

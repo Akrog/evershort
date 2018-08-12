@@ -150,6 +150,7 @@ Release Notes
 0.3.2
 
 - Fix #7: Tab inserts 4 spaces
+- Fix help message on click with user URLs
 
 0.3.1 (2018-03-30)
 
